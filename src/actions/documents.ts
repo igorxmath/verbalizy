@@ -3,6 +3,7 @@
 import { supabaseServer } from '@/lib/supabaseHandler'
 import { Project, Document } from '@/types/general.types'
 import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 
 export async function addDocument(
   { name, content }: { name: Document['name']; content: Document['content'] },
@@ -18,7 +19,7 @@ export async function addDocument(
     return
   }
 
-  const { data, error } = await supabase
+  const { data: document, error } = await supabase
     .from('documents')
     .insert({
       name,
@@ -34,11 +35,12 @@ export async function addDocument(
     return
   }
 
-  if (!data) {
+  if (!document) {
     return
   }
 
   revalidatePath('/')
+  redirect(`/editor/${document.id}`)
 }
 
 export async function deleteDocument(docId: Document['id']) {
