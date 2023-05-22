@@ -32,6 +32,6 @@ export const config = {
      * 5. /_vercel (Vercel internals)
      * 6. /favicon.ico, /sitemap.xml (static files)
      */
-    '/((?!api/|_next/|_proxy/|_auth/|_static|_vercel|favicon.ico|sitemap.xml).*)',
+    '/((?!_next/|_proxy/|_auth/|_static|_vercel|favicon.ico|sitemap.xml).*)',
   ],
 }
