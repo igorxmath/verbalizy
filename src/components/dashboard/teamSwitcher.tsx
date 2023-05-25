@@ -86,39 +86,43 @@ export function TeamSwitcher({ groups, selected }: { groups: Groups[]; selected:
             <CommandList>
               <CommandInput placeholder='Search team...' />
               <CommandEmpty>No team found.</CommandEmpty>
-              {groups.map((group) => (
-                <CommandGroup
-                  key={group.label}
-                  heading={group.label}
-                >
-                  {group.teams.map((team) => (
-                    <CommandItem
-                      key={team.slug}
-                      onSelect={() => {
-                        setSelectedTeam(team)
-                        setOpen(false)
-                        push(team.slug)
-                      }}
-                      className='text-sm'
-                    >
-                      <Avatar className='mr-2 h-5 w-5'>
-                        <AvatarImage
-                          src={`https://avatar.vercel.sh/${team.slug}.png`}
-                          alt={team.name}
+              {groups.map((group) => {
+                if (!group.teams.length) return
+
+                return (
+                  <CommandGroup
+                    key={group.label}
+                    heading={group.label}
+                  >
+                    {group.teams.map((team) => (
+                      <CommandItem
+                        key={team.slug}
+                        onSelect={() => {
+                          setSelectedTeam(team)
+                          setOpen(false)
+                          push(team.slug)
+                        }}
+                        className='text-sm'
+                      >
+                        <Avatar className='mr-2 h-5 w-5'>
+                          <AvatarImage
+                            src={`https://avatar.vercel.sh/${team.slug}.png`}
+                            alt={team.name}
+                          />
+                          <AvatarFallback>SC</AvatarFallback>
+                        </Avatar>
+                        {team.name}
+                        <Check
+                          className={cn(
+                            'ml-auto h-4 w-4',
+                            selectedTeam.slug === team.slug ? 'opacity-100' : 'opacity-0',
+                          )}
                         />
-                        <AvatarFallback>SC</AvatarFallback>
-                      </Avatar>
-                      {team.name}
-                      <Check
-                        className={cn(
-                          'ml-auto h-4 w-4',
-                          selectedTeam.slug === team.slug ? 'opacity-100' : 'opacity-0',
-                        )}
-                      />
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              ))}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                )
+              })}
             </CommandList>
             <CommandSeparator />
             <CommandList>

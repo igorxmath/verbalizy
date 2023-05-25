@@ -138,4 +138,5 @@ export async function deleteTeam(team: Team) {
   }
 
   revalidatePath('/')
+  redirect('/dashboard')
 }

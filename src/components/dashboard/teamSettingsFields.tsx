@@ -155,8 +155,6 @@ export function TeamNameForm({ team }: { team: Team }) {
 export function ConfirmTeamDeletion({ team }: { team: Team }) {
   const [isPending, startTransition] = React.useTransition()
 
-  const { push } = useRouter()
-
   return (
     <FieldSet className='border-red-600'>
       <FieldSet.Header>
@@ -186,7 +184,7 @@ export function ConfirmTeamDeletion({ team }: { team: Team }) {
               <AlertDialogAction
                 onClick={() =>
                   startTransition(() => {
-                    deleteTeam(team).finally(() => push('/dashboard'))
+                    deleteTeam(team)
                   })
                 }
               >
