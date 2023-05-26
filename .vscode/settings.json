@@ -12,7 +12,9 @@
   "problems.showCurrentInStatus": true,
   "editor.showUnused": true,
 
-  "tailwindCSS.experimental.classRegex": [["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]],
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]", "cn\\(([^)]*)\\)"]
+  ],
 
   "material-icon-theme.folders.associations": {
     "actions": "functions",

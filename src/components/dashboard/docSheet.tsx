@@ -5,6 +5,7 @@ import { Button } from '#/ui/button'
 import { Input } from '#/ui/input'
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -90,13 +91,15 @@ export function DocSheet({ projectId }: { projectId: string }) {
               </div>
             </div>
             <SheetFooter>
-              <Button
-                type='submit'
-                disabled={isPending}
-              >
-                {isPending && <Spinner className='mr-2 h-4 w-4 animate-spin' />}
-                <span>Save changes</span>
-              </Button>
+              <SheetClose asChild>
+                <Button
+                  type='submit'
+                  disabled={isPending}
+                >
+                  {isPending && <Spinner className='mr-2 h-4 w-4 animate-spin' />}
+                  <span>Save changes</span>
+                </Button>
+              </SheetClose>
             </SheetFooter>
           </form>
         </Form>
