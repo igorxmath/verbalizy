@@ -1,7 +1,6 @@
 import { GitHub } from '#/icons'
-import { buttonVariants } from '#/ui/button'
+import { Button } from '#/ui/button'
 import { CommandMenu } from './commandMenu'
-import { cn } from '@/utils/helpers'
 import Link from 'next/link'
 
 export default function Footer() {
@@ -11,22 +10,19 @@ export default function Footer() {
         <CommandMenu />
       </div>
       <div className='flex items-center justify-start space-x-2'>
-        <Link
-          href='https://github.com/igorxmath/verbalizy'
-          target='_blank'
+        <Button
+          variant={'ghost'}
+          size={'sm'}
+          className='w-9 px-0'
+          asChild
         >
-          <div
-            className={cn(
-              buttonVariants({
-                size: 'sm',
-                variant: 'ghost',
-              }),
-              'w-9 px-0',
-            )}
+          <Link
+            href='https://github.com/igorxmath/verbalizy'
+            target='_blank'
           >
             <GitHub className='h-5 w-5' />
-          </div>
-        </Link>
+          </Link>
+        </Button>
       </div>
     </footer>
   )

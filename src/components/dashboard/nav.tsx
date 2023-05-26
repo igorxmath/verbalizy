@@ -2,7 +2,7 @@
 
 import { Columns, Logout, Settings } from '#/icons'
 import { Avatar, AvatarImage, AvatarFallback } from '#/ui/avatar'
-import { buttonVariants } from '#/ui/button'
+import { Button } from '#/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,18 +34,18 @@ export function NavTabs() {
             key={index}
             className={cn(isActive && 'border-b border-primary')}
           >
-            <Link
-              href={projectSlug ? `/${teamSlug}/${projectSlug}/${slug}` : `/${teamSlug}/${slug}`}
-              className={cn(
-                buttonVariants({
-                  size: 'sm',
-                  variant: 'ghost',
-                }),
-                'mb-1 mt-1',
-              )}
+            <Button
+              variant={'ghost'}
+              size={'sm'}
+              className='mb-1 mt-1'
+              asChild
             >
-              {name}
-            </Link>
+              <Link
+                href={projectSlug ? `/${teamSlug}/${projectSlug}/${slug}` : `/${teamSlug}/${slug}`}
+              >
+                {name}
+              </Link>
+            </Button>
           </div>
         )
       })}
