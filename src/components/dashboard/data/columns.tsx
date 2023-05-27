@@ -3,15 +3,12 @@
 import { Badge } from '#/ui/badge'
 import { DocOperations } from './docOperator'
 import { DataTableColumnHeader } from '@/components/dashboard/data/dataTableHeader'
-import { Database } from '@/types/database.types'
+import { Document, DocumentStatus } from '@/types/general.types'
 import { cn, timeSince } from '@/utils/helpers'
 import { ColumnDef } from '@tanstack/react-table'
 import Link from 'next/link'
 
-export type Documents = Database['public']['Tables']['documents']['Row']
-export type DocumentsStatus = Database['public']['Enums']['status_type']
-
-export const statuses: { value: DocumentsStatus; label: string; color: string }[] = [
+export const statuses: { value: DocumentStatus; label: string; color: string }[] = [
   {
     value: 'ready',
     label: 'Ready',
@@ -29,7 +26,7 @@ export const statuses: { value: DocumentsStatus; label: string; color: string }[
   },
 ]
 
-export const columns: ColumnDef<Documents>[] = [
+export const columns: ColumnDef<Document>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => {

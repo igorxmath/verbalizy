@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server'
 
 export const revalidate = 0
 
-export async function GET(): Promise<NextResponse> {
+async function initPersonalTeam(): Promise<NextResponse> {
   const supabase = supabaseRoute()
 
   const {
@@ -80,3 +80,5 @@ export async function GET(): Promise<NextResponse> {
 
   return NextResponse.json({ status: 'ok' })
 }
+
+export { initPersonalTeam as GET }

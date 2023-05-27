@@ -25,20 +25,8 @@ export const userSchema = z.object({
 })
 
 // routes
-export const teamRouteContextSchema = z.object({
-  params: z.object({
-    slug: z.string(),
-  }),
-})
-
 export const projectRouteContextSchema = z.object({
   params: z.object({
     projectId: z.string(),
-  }),
-})
-
-export const documentRouteContextSchema = z.object({
-  params: z.object({
-    docId: z.string(),
   }),
 })

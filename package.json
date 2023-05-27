@@ -39,7 +39,7 @@
     "@supabase/supabase-js": "^2.23.0",
     "@t3-oss/env-nextjs": "^0.2.2",
     "@tanstack/react-table": "^8.9.1",
-    "@types/node": "^18.16.15",
+    "@types/node": "^18.16.16",
     "@types/react": "^18.2.7",
     "@types/react-dom": "^18.2.4",
     "@vercel/analytics": "^0.1.11",

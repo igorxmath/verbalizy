@@ -1,27 +1,27 @@
 import { supabaseRoute } from '@/lib/supabaseHandler'
-import { documentSchema } from '@/utils/validation'
+import { projectSchema } from '@/utils/validation'
 import { type NextRequest, NextResponse } from 'next/server'
 import * as z from 'zod'
 
 export const revalidate = 0
 
-const documentRouteContextSchema = z.object({
+const projectRouteContextSchema = z.object({
   params: z.object({
-    docId: z.string(),
+    projectId: z.string(),
   }),
 })
 
-async function editDocument(
+async function editProjectName(
   request: NextRequest,
-  context: z.infer<typeof documentRouteContextSchema>,
+  context: z.infer<typeof projectRouteContextSchema>,
 ): Promise<NextResponse> {
   try {
     const {
-      params: { docId },
-    } = documentRouteContextSchema.parse(context)
+      params: { projectId },
+    } = projectRouteContextSchema.parse(context)
 
     const json = await request.json()
-    const body = documentSchema.parse(json)
+    const { name } = projectSchema.parse(json)
 
     const supabase = supabaseRoute()
 
@@ -33,16 +33,13 @@ async function editDocument(
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
-    const { error } = await supabase
-      .from('documents')
-      .update({
-        ...body,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', docId)
+    const { error: projectError } = await supabase
+      .from('projects')
+      .update({ name })
+      .eq('id', projectId)
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
+    if (projectError) {
+      return NextResponse.json({ error: projectError.message }, { status: 500 })
     }
 
     return NextResponse.json({ status: 'ok' })
@@ -55,14 +52,14 @@ async function editDocument(
   }
 }
 
-async function deleteDocument(
+async function deleteProject(
   _request: NextRequest,
-  context: z.infer<typeof documentRouteContextSchema>,
+  context: z.infer<typeof projectRouteContextSchema>,
 ): Promise<NextResponse> {
   try {
     const {
-      params: { docId },
-    } = documentRouteContextSchema.parse(context)
+      params: { projectId },
+    } = projectRouteContextSchema.parse(context)
 
     const supabase = supabaseRoute()
 
@@ -74,10 +71,10 @@ async function deleteDocument(
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
-    const { error } = await supabase.from('documents').delete().eq('id', docId)
+    const { error: projectError } = await supabase.from('projects').delete().eq('id', projectId)
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
+    if (projectError) {
+      return NextResponse.json({ error: projectError.message }, { status: 500 })
     }
 
     return NextResponse.json({ status: 'ok' })
@@ -90,4 +87,4 @@ async function deleteDocument(
   }
 }
 
-export { editDocument as PATCH, deleteDocument as DELETE }
+export { deleteProject as DELETE, editProjectName as PATCH }

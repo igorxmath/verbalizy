@@ -2,11 +2,9 @@ import { Divider } from '#/icons'
 import { NavTabs, UserAccountNav } from '@/components/dashboard/nav'
 import { TeamSwitcher } from '@/components/dashboard/teamSwitcher'
 import { supabaseServer } from '@/lib/supabaseHandler'
-import { Database } from '@/types/database.types'
+import { Team } from '@/types/general.types'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-
-type TeamDatabase = Database['public']['Tables']['teams']['Row']
 
 export default async function Header({ teamSlug }: { teamSlug: string }) {
   const supabase = supabaseServer()
@@ -36,7 +34,7 @@ export default async function Header({ teamSlug }: { teamSlug: string }) {
     .select('user_id, teams (*)')
     .match({ user_id: user.id })
 
-  const teams = (data?.map((d) => d.teams) || []) as TeamDatabase[]
+  const teams = (data?.map((d) => d.teams) || []) as unknown as Team[]
 
   const personalTeams = teams
     .filter(({ is_personal }) => is_personal)
