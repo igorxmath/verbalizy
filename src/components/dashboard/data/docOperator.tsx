@@ -19,7 +19,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '#/ui/dropdownMenu'
-import { deleteDocument } from '@/actions/documents'
 import { useToast } from '@/hooks/useToast'
 import { Document } from '@/types/general.types'
 import Link from 'next/link'
@@ -28,10 +27,32 @@ import * as React from 'react'
 
 export function DocOperations({ docId }: { docId: Document['id'] }) {
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
-  const [isPending, startTransition] = React.useTransition()
+  const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   const { refresh } = useRouter()
   const { toast } = useToast()
+
+  const handleDeleteDoc = async () => {
+    setIsLoading(true)
+
+    const res = await fetch(`/api/documents/${docId}`, {
+      method: 'DELETE',
+    })
+
+    if (!res.ok) {
+      setIsLoading(false)
+      return toast({
+        title: 'Something went wrong.',
+        description: 'Please try again.',
+        variant: 'destructive',
+      })
+    }
+
+    setIsLoading(false)
+
+    toast({ description: 'Document deleted' })
+    refresh()
+  }
 
   return (
     <>
@@ -78,19 +99,12 @@ export function DocOperations({ docId }: { docId: Document['id'] }) {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              onClick={async (event) => {
-                event.preventDefault()
-
-                startTransition(() =>
-                  deleteDocument(docId).finally(() => {
-                    setShowDeleteAlert(false)
-                    toast({ description: 'Document deleted' })
-                    refresh()
-                  }),
-                )
+              onClick={(e) => {
+                e.preventDefault()
+                handleDeleteDoc()
               }}
             >
-              {isPending ? (
+              {isLoading ? (
                 <Spinner className='mr-2 h-4 w-4 animate-spin' />
               ) : (
                 <Trash className='mr-2 h-4 w-4' />

@@ -24,13 +24,13 @@ import {
 import { Input } from '#/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '#/ui/popover'
 import { Form, FormField, FormItem, FormControl, FormMessage, FormLabel } from '#/ui/form'
-import { addTeam } from '@/actions/teams'
 import { cn } from '@/utils/helpers'
 import { teamSchema } from '@/utils/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
+import { useToast } from '@/hooks/useToast'
 import * as z from 'zod'
 
 type FormData = z.infer<typeof teamSchema>
@@ -46,11 +46,36 @@ export function TeamSwitcher({ groups, selected }: { groups: Groups[]; selected:
   const [open, setOpen] = React.useState(false)
   const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false)
   const [selectedTeam, setSelectedTeam] = React.useState<Team>(selected)
-  const [isPending, startTransition] = React.useTransition()
+  const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   const { push } = useRouter()
+  const { toast } = useToast()
 
   const form = useForm<FormData>({ resolver: zodResolver(teamSchema) })
+
+  const handleNewTeam = async (formData: FormData) => {
+    setIsLoading(true)
+
+    const res = await fetch(`/api/teams/`, {
+      method: 'POST',
+      body: JSON.stringify(formData),
+    })
+
+    if (!res.ok) {
+      setIsLoading(false)
+      return toast({
+        title: 'Something went wrong.',
+        description: 'Please try again.',
+        variant: 'destructive',
+      })
+    }
+
+    setIsLoading(false)
+
+    const { teamSlug } = await res.json()
+
+    push(`/${teamSlug}`)
+  }
 
   return (
     <Dialog
@@ -150,7 +175,7 @@ export function TeamSwitcher({ groups, selected }: { groups: Groups[]; selected:
         </DialogHeader>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(({ name }) => startTransition(() => addTeam(name)))}
+            onSubmit={form.handleSubmit(handleNewTeam)}
             autoComplete='off'
             className='space-y-4'
           >
@@ -174,17 +199,17 @@ export function TeamSwitcher({ groups, selected }: { groups: Groups[]; selected:
             <DialogFooter>
               <Button
                 variant='secondary'
-                disabled={isPending}
+                disabled={isLoading}
                 onClick={() => setShowNewTeamDialog(false)}
                 className='mt-2 sm:mt-0'
               >
                 Cancel
               </Button>
               <Button
-                disabled={isPending}
+                disabled={isLoading}
                 type='submit'
               >
-                {isPending && <Spinner className='mr-2 h-4 w-4 animate-spin' />}Continue
+                {isLoading && <Spinner className='mr-2 h-4 w-4 animate-spin' />}Continue
               </Button>
             </DialogFooter>
           </form>

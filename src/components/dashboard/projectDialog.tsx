@@ -14,19 +14,55 @@ import {
 } from '#/ui/dialog'
 import { Input } from '#/ui/input'
 import { Form, FormField, FormItem, FormControl, FormMessage, FormLabel } from '#/ui/form'
-import { addProject } from '@/actions/projects'
 import { projectSchema } from '@/utils/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
+import { useToast } from '@/hooks/useToast'
 import * as z from 'zod'
+import { Team } from '@/types/general.types'
 
 type FormData = z.infer<typeof projectSchema>
 
-export default function NewProjectDialog({ teamSlug }: { teamSlug: string }) {
-  const [isPending, startTransition] = React.useTransition()
+export default function NewProjectDialog({
+  teamSlug,
+  teamId,
+}: {
+  teamSlug: Team['slug']
+  teamId: Team['id']
+}) {
+  const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   const form = useForm<FormData>({ resolver: zodResolver(projectSchema) })
+
+  const { toast } = useToast()
+  const { push, refresh } = useRouter()
+
+  const handleNewProject = async (formData: FormData) => {
+    setIsLoading(true)
+
+    const res = await fetch(`/api/teams/${teamId}/project`, {
+      method: 'POST',
+      body: JSON.stringify(formData),
+    })
+
+    if (!res.ok) {
+      setIsLoading(false)
+      return toast({
+        title: 'Something went wrong.',
+        description: 'Please try again.',
+        variant: 'destructive',
+      })
+    }
+
+    const { projectSlug } = await res.json()
+
+    setIsLoading(false)
+
+    push(`/${teamSlug}/${projectSlug}`)
+    refresh()
+  }
 
   return (
     <Dialog>
@@ -43,9 +79,7 @@ export default function NewProjectDialog({ teamSlug }: { teamSlug: string }) {
         </DialogHeader>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(({ name }) =>
-              startTransition(() => addProject(name, teamSlug)),
-            )}
+            onSubmit={form.handleSubmit(handleNewProject)}
             autoComplete='off'
             className='space-y-4'
           >
@@ -69,9 +103,9 @@ export default function NewProjectDialog({ teamSlug }: { teamSlug: string }) {
             <DialogFooter>
               <Button
                 type='submit'
-                disabled={isPending}
+                disabled={isLoading}
               >
-                {isPending && <Spinner className='mr-2 h-4 w-4 animate-spin' />}
+                {isLoading && <Spinner className='mr-2 h-4 w-4 animate-spin' />}
                 <span>Continue</span>
               </Button>
             </DialogFooter>

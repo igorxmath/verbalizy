@@ -14,19 +14,49 @@ import {
 } from '#/ui/sheet'
 import { Textarea } from '#/ui/textarea'
 import { Form, FormField, FormItem, FormControl, FormMessage, FormLabel } from '#/ui/form'
-import { addDocument } from '@/actions/documents'
 import { documentSchema } from '@/utils/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as React from 'react'
+import { useToast } from '@/hooks/useToast'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
+import { useRouter } from 'next/navigation'
+import { Project } from '@/types/general.types'
 
 type FormData = z.infer<typeof documentSchema>
 
-export function DocSheet({ projectId }: { projectId: string }) {
-  const [isPending, startTransition] = React.useTransition()
+export function DocSheet({ projectId }: { projectId: Project['id'] }) {
+  const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   const form = useForm<FormData>({ resolver: zodResolver(documentSchema) })
+
+  const { toast } = useToast()
+  const { push, refresh } = useRouter()
+
+  const handleNewDoc = async (formData: FormData) => {
+    setIsLoading(true)
+
+    const res = await fetch(`/api/projects/${projectId}/document`, {
+      method: 'POST',
+      body: JSON.stringify(formData),
+    })
+
+    if (!res.ok) {
+      setIsLoading(false)
+      return toast({
+        title: 'Something went wrong.',
+        description: 'Please try again.',
+        variant: 'destructive',
+      })
+    }
+
+    const { docId } = await res.json()
+
+    setIsLoading(false)
+
+    push(`/editor/${docId}`)
+    refresh()
+  }
 
   return (
     <Sheet>
@@ -45,9 +75,7 @@ export function DocSheet({ projectId }: { projectId: string }) {
         </SheetHeader>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit((props) =>
-              startTransition(() => addDocument({ ...props }, projectId)),
-            )}
+            onSubmit={form.handleSubmit(handleNewDoc)}
             autoComplete='off'
           >
             <div className='space-y-4 py-2 pb-4'>
@@ -92,9 +120,9 @@ export function DocSheet({ projectId }: { projectId: string }) {
             <SheetFooter>
               <Button
                 type='submit'
-                disabled={isPending}
+                disabled={isLoading}
               >
-                {isPending && <Spinner className='mr-2 h-4 w-4 animate-spin' />}
+                {isLoading && <Spinner className='mr-2 h-4 w-4 animate-spin' />}
                 <span>Save changes</span>
               </Button>
             </SheetFooter>

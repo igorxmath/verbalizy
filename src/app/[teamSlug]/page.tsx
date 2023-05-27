@@ -64,7 +64,10 @@ export default async function OverviewPage({
                   height={400}
                   className='mx-auto'
                 />
-                <NewProjectDialog teamSlug={teamSlug} />
+                <NewProjectDialog
+                  teamSlug={teamSlug}
+                  teamId={team.id}
+                />
               </div>
             </CardContent>
           </Card>
@@ -78,7 +81,10 @@ export default async function OverviewPage({
       <div className='container mx-auto grow space-y-4 p-4'>
         <div className='flex space-x-2'>
           <SearchBar />
-          <NewProjectDialog teamSlug={teamSlug} />
+          <NewProjectDialog
+            teamSlug={teamSlug}
+            teamId={team.id}
+          />
         </div>
         <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
           {projects.map((project) => (

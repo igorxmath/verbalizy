@@ -1,6 +1,6 @@
 import {
   ConfirmProjectDeletion,
-  ProjectNameForm,
+  ProjectSlugForm,
 } from '@/components/dashboard/projectSettingsFields'
 import { supabaseServer } from '@/lib/supabaseHandler'
 import { notFound } from 'next/navigation'
@@ -28,7 +28,7 @@ export default async function Page({
 
   return (
     <>
-      <ProjectNameForm project={project} />
+      <ProjectSlugForm project={project} />
       <ConfirmProjectDeletion project={project} />
     </>
   )

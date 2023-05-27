@@ -22,22 +22,127 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Trash, Spinner } from '#/icons'
 import { useToast } from '@/hooks/useToast'
-import { projectSchema } from '@/utils/validation'
-import { changeProjectNameAndSlug, deleteProject } from '@/actions/projects'
-import { useParams } from 'next/navigation'
+import { projectSchema, slugSchema } from '@/utils/validation'
+import { useParams, useRouter } from 'next/navigation'
+
+type SlugFormData = z.infer<typeof slugSchema>
+
+export function ProjectSlugForm({ project }: { project: Project }) {
+  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+
+  const form = useForm<SlugFormData>({
+    resolver: zodResolver(slugSchema),
+    defaultValues: { slug: project.slug },
+  })
+
+  const { toast } = useToast()
+  const { refresh, push } = useRouter()
+  const { teamSlug } = useParams()
+
+  const handleChangeProjectSlug = async (formData: SlugFormData) => {
+    setIsLoading(true)
+
+    const res = await fetch(`/api/teams/${project.team_id}/project/${project.id}`, {
+      method: 'PUT',
+      body: JSON.stringify(formData),
+    })
+
+    if (!res.ok) {
+      setIsLoading(false)
+      return toast({
+        title: 'Something went wrong.',
+        description: 'Please try again.',
+        variant: 'destructive',
+      })
+    }
+
+    setIsLoading(false)
+
+    const { projectSlug } = await res.json()
+
+    toast({ description: 'Project slug changed!' })
+    push(`/${teamSlug}/${projectSlug}/settings`)
+    refresh()
+  }
+
+  return (
+    <FieldSet>
+      <FieldSet.Header>
+        <FieldSet.Title>Project Name</FieldSet.Title>
+        <FieldSet.Description>
+          Used to identify your Project on the Dashboard and in the URL of your Deployments.
+        </FieldSet.Description>
+      </FieldSet.Header>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleChangeProjectSlug)}
+          autoComplete='off'
+        >
+          <FieldSet.Content>
+            <div className='sm:w-1/4'>
+              <FormField
+                control={form.control}
+                name='slug'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        disabled={isLoading}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </FieldSet.Content>
+          <FieldSet.Footer>
+            <Button disabled={isLoading || !form.formState.isDirty}>
+              {isLoading && <Spinner className='mr-2 h-4 w-4 animate-spin' />}Save
+            </Button>
+          </FieldSet.Footer>
+        </form>
+      </Form>
+    </FieldSet>
+  )
+}
 
 type NameFormData = z.infer<typeof projectSchema>
 
 export function ProjectNameForm({ project }: { project: Project }) {
-  const [isPending, startTransition] = React.useTransition()
+  const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   const { toast } = useToast()
-  const { teamSlug } = useParams()
+  const { refresh } = useRouter()
 
   const form = useForm<NameFormData>({
     resolver: zodResolver(projectSchema),
     defaultValues: { name: project.name },
   })
+
+  const handleEditProjectName = async (formData: NameFormData) => {
+    setIsLoading(true)
+
+    const res = await fetch(`/api/projects/${project.id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(formData),
+    })
+
+    if (!res.ok) {
+      setIsLoading(false)
+      return toast({
+        title: 'Something went wrong.',
+        description: 'Please try again.',
+        variant: 'destructive',
+      })
+    }
+
+    setIsLoading(false)
+
+    toast({ description: 'Project name changed!' })
+    refresh()
+  }
 
   return (
     <FieldSet>
@@ -49,13 +154,7 @@ export function ProjectNameForm({ project }: { project: Project }) {
       </FieldSet.Header>
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(({ name }) =>
-            startTransition(() =>
-              changeProjectNameAndSlug(name, teamSlug, project).finally(() => {
-                toast({ description: 'Project name changed' })
-              }),
-            ),
-          )}
+          onSubmit={form.handleSubmit(handleEditProjectName)}
           autoComplete='off'
         >
           <FieldSet.Content>
@@ -67,7 +166,7 @@ export function ProjectNameForm({ project }: { project: Project }) {
                   <FormItem>
                     <FormControl>
                       <Input
-                        disabled={isPending}
+                        disabled={isLoading}
                         {...field}
                       />
                     </FormControl>
@@ -78,8 +177,8 @@ export function ProjectNameForm({ project }: { project: Project }) {
             </div>
           </FieldSet.Content>
           <FieldSet.Footer>
-            <Button disabled={isPending || !form.formState.isDirty}>
-              {isPending && <Spinner className='mr-2 h-4 w-4 animate-spin' />}Save
+            <Button disabled={isLoading || !form.formState.isDirty}>
+              {isLoading && <Spinner className='mr-2 h-4 w-4 animate-spin' />}Save
             </Button>
           </FieldSet.Footer>
         </form>
@@ -89,9 +188,34 @@ export function ProjectNameForm({ project }: { project: Project }) {
 }
 
 export function ConfirmProjectDeletion({ project }: { project: Project }) {
-  const [isPending, startTransition] = React.useTransition()
+  const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
+  const { toast } = useToast()
+  const { refresh, push } = useRouter()
   const { teamSlug } = useParams()
+
+  const handleDeleteProject = async () => {
+    setIsLoading(true)
+
+    const res = await fetch(`/api/projects/${project.id}`, {
+      method: 'DELETE',
+    })
+
+    if (!res.ok) {
+      setIsLoading(false)
+      return toast({
+        title: 'Something went wrong.',
+        description: 'Please try again.',
+        variant: 'destructive',
+      })
+    }
+
+    setIsLoading(false)
+
+    toast({ description: 'Project deleted!' })
+    refresh()
+    push(`/${teamSlug}`)
+  }
 
   return (
     <FieldSet className='border-red-600'>
@@ -118,13 +242,13 @@ export function ConfirmProjectDeletion({ project }: { project: Project }) {
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction
-                disabled={isPending}
+                disabled={isLoading}
                 onClick={async (event) => {
                   event.preventDefault()
-                  startTransition(() => deleteProject(project.id, teamSlug))
+                  handleDeleteProject()
                 }}
               >
-                {isPending ? (
+                {isLoading ? (
                   <Spinner className='mr-2 h-4 w-4 animate-spin' />
                 ) : (
                   <Trash className='mr-2 h-4 w-4' />

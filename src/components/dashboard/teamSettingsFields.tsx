@@ -18,8 +18,6 @@ import { Input } from '#/ui/input'
 import { Label } from '#/ui/label'
 import { Switch } from '#/ui/switch'
 import { Form, FormField, FormItem, FormControl, FormMessage } from '#/ui/form'
-import { changeTeamName, changeTeamSlug, deleteTeam } from '@/actions/teams'
-import { deleteUser } from '@/actions/users'
 import { useToast } from '@/hooks/useToast'
 import { Team } from '@/types/general.types'
 import { slugSchema, teamSchema } from '@/utils/validation'
@@ -40,14 +38,41 @@ export function TeamSlugForm({
   description: string
   team: Team
 }) {
-  const [isPending, startTransition] = React.useTransition()
-
-  const { toast } = useToast()
+  const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   const form = useForm<SlugFormData>({
     resolver: zodResolver(slugSchema),
     defaultValues: { slug: team.slug },
   })
+
+  const { toast } = useToast()
+  const { refresh, push } = useRouter()
+
+  const handleChangeTeamSlug = async (formData: SlugFormData) => {
+    setIsLoading(true)
+
+    const res = await fetch(`/api/teams/${team.id}`, {
+      method: 'PUT',
+      body: JSON.stringify(formData),
+    })
+
+    if (!res.ok) {
+      setIsLoading(false)
+      return toast({
+        title: 'Something went wrong.',
+        description: 'Please try again.',
+        variant: 'destructive',
+      })
+    }
+
+    setIsLoading(false)
+
+    const { teamSlug } = await res.json()
+
+    toast({ description: 'Team slug changed!' })
+    push(`/${teamSlug}`)
+    refresh()
+  }
 
   return (
     <FieldSet>
@@ -57,13 +82,7 @@ export function TeamSlugForm({
       </FieldSet.Header>
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(({ slug }) =>
-            startTransition(() =>
-              changeTeamSlug(slug, team.slug).finally(() => {
-                toast({ description: 'Team slug changed' })
-              }),
-            ),
-          )}
+          onSubmit={form.handleSubmit(handleChangeTeamSlug)}
           autoComplete='off'
         >
           <FieldSet.Content>
@@ -75,7 +94,7 @@ export function TeamSlugForm({
                   <FormItem>
                     <FormControl>
                       <Input
-                        disabled={isPending}
+                        disabled={isLoading}
                         {...field}
                       />
                     </FormControl>
@@ -86,8 +105,8 @@ export function TeamSlugForm({
             </div>
           </FieldSet.Content>
           <FieldSet.Footer>
-            <Button disabled={isPending || !form.formState.isDirty}>
-              {isPending && <Spinner className='mr-2 h-4 w-4 animate-spin' />}Save
+            <Button disabled={isLoading || !form.formState.isDirty}>
+              {isLoading && <Spinner className='mr-2 h-4 w-4 animate-spin' />}Save
             </Button>
           </FieldSet.Footer>
         </form>
@@ -99,10 +118,7 @@ export function TeamSlugForm({
 type NameFormData = z.infer<typeof teamSchema>
 
 export function TeamNameForm({ team }: { team: Team }) {
-  const [isPending, startTransition] = React.useTransition()
-
-  const { refresh } = useRouter()
-  const { toast } = useToast()
+  const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   const {
     register,
@@ -113,6 +129,32 @@ export function TeamNameForm({ team }: { team: Team }) {
     defaultValues: { name: team.name },
   })
 
+  const { toast } = useToast()
+  const { refresh } = useRouter()
+
+  const handleChangeTeamName = async (formData: NameFormData) => {
+    setIsLoading(true)
+
+    const res = await fetch(`/api/teams/${team.id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(formData),
+    })
+
+    if (!res.ok) {
+      setIsLoading(false)
+      return toast({
+        title: 'Something went wrong.',
+        description: 'Please try again.',
+        variant: 'destructive',
+      })
+    }
+
+    setIsLoading(false)
+
+    toast({ description: 'Team name changed!' })
+    refresh()
+  }
+
   return (
     <FieldSet>
       <FieldSet.Header>
@@ -120,21 +162,14 @@ export function TeamNameForm({ team }: { team: Team }) {
         <FieldSet.Description>This is your URL namespace within Verbalizy.</FieldSet.Description>
       </FieldSet.Header>
       <form
-        onSubmit={handleSubmit(({ name }) =>
-          startTransition(() =>
-            changeTeamName(name, team.slug).finally(() => {
-              refresh()
-              toast({ description: 'Team name changed' })
-            }),
-          ),
-        )}
+        onSubmit={handleSubmit(handleChangeTeamName)}
         autoComplete='off'
       >
         <FieldSet.Content>
           <div className='sm:w-1/4'>
             <Input
               id='name'
-              disabled={isPending}
+              disabled={isLoading}
               {...register('name')}
             />
           </div>
@@ -143,8 +178,8 @@ export function TeamNameForm({ team }: { team: Team }) {
           )}
         </FieldSet.Content>
         <FieldSet.Footer>
-          <Button disabled={isPending || !isDirty}>
-            {isPending && <Spinner className='mr-2 h-4 w-4 animate-spin' />}Save
+          <Button disabled={isLoading || !isDirty}>
+            {isLoading && <Spinner className='mr-2 h-4 w-4 animate-spin' />}Save
           </Button>
         </FieldSet.Footer>
       </form>
@@ -153,7 +188,35 @@ export function TeamNameForm({ team }: { team: Team }) {
 }
 
 export function ConfirmTeamDeletion({ team }: { team: Team }) {
-  const [isPending, startTransition] = React.useTransition()
+  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+
+  const { toast } = useToast()
+  const { refresh, push } = useRouter()
+
+  const handleDeleteTeam = async () => {
+    setIsLoading(true)
+
+    const res = await fetch(`/api/teams/${team.id}`, {
+      method: 'DELETE',
+    })
+
+    if (!res.ok) {
+      setIsLoading(false)
+      return toast({
+        title: 'Something went wrong.',
+        description: 'Please try again.',
+        variant: 'destructive',
+      })
+    }
+
+    const { personalTeamSlug } = await res.json()
+
+    setIsLoading(false)
+
+    toast({ description: 'Team deleted!' })
+    push(`/${personalTeamSlug}`)
+    refresh()
+  }
 
   return (
     <FieldSet className='border-red-600'>
@@ -167,8 +230,11 @@ export function ConfirmTeamDeletion({ team }: { team: Team }) {
       <FieldSet.Footer>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant='destructive'>
-              {isPending && <Spinner className='mr-2 h-4 w-4 animate-spin' />}Delete Team
+            <Button
+              variant='destructive'
+              disabled={isLoading}
+            >
+              {isLoading && <Spinner className='mr-2 h-4 w-4 animate-spin' />}Delete Team
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
@@ -182,13 +248,13 @@ export function ConfirmTeamDeletion({ team }: { team: Team }) {
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction
-                onClick={() =>
-                  startTransition(() => {
-                    deleteTeam(team)
-                  })
-                }
+                disabled={isLoading}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleDeleteTeam()
+                }}
               >
-                {isPending ? (
+                {isLoading ? (
                   <Spinner className='mr-2 h-4 w-4 animate-spin' />
                 ) : (
                   <Trash className='mr-2 h-4 w-4' />
@@ -204,7 +270,7 @@ export function ConfirmTeamDeletion({ team }: { team: Team }) {
 }
 
 export function ConfirmAccountDeletion({ personalTeamSlug }: { personalTeamSlug: Team['slug'] }) {
-  const [isPending, startTransition] = React.useTransition()
+  const [isLoading, setIsLoading] = React.useState<boolean>(!personalTeamSlug)
 
   return (
     <FieldSet className='border-red-600'>
@@ -218,7 +284,13 @@ export function ConfirmAccountDeletion({ personalTeamSlug }: { personalTeamSlug:
       <FieldSet.Footer>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant='destructive'>Delete Account</Button>
+            <Button
+              variant='destructive'
+              disabled={isLoading}
+            >
+              {isLoading && <Spinner className='mr-2 h-4 w-4 animate-spin' />}
+              Delete Account
+            </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -229,15 +301,15 @@ export function ConfirmAccountDeletion({ personalTeamSlug }: { personalTeamSlug:
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
               <AlertDialogAction
-                onClick={() =>
-                  startTransition(() => {
-                    deleteUser(personalTeamSlug)
-                  })
-                }
+                disabled={isLoading}
+                onClick={(e) => {
+                  e.preventDefault()
+                  setIsLoading(true)
+                }}
               >
-                {isPending ? (
+                {isLoading ? (
                   <Spinner className='mr-2 h-4 w-4 animate-spin' />
                 ) : (
                   <Trash className='mr-2 h-4 w-4' />
