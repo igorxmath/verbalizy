@@ -1,4 +1,4 @@
-import { Clock } from '#/icons'
+import { Clock, Document } from '#/icons'
 import { Badge } from '#/ui/badge'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '#/ui/card'
 import NewProjectDialog from '@/components/dashboard/projectDialog'
@@ -40,10 +40,20 @@ export default async function OverviewPage({
     return <p>Something went wrong</p>
   }
 
-  const projects = data.map((item) => {
+  const countProjectDocs = async (project_id: string) => {
+    const { count } = await supabase
+      .from('documents')
+      .select('project_id', { count: 'exact' })
+      .match({ project_id })
+
+    return count
+  }
+
+  const projects = data.map((project) => {
     return {
-      ...item,
-      updated_at: timeSince(item.updated_at),
+      ...project,
+      count: countProjectDocs(project.id),
+      updated_at: timeSince(project.updated_at),
     }
   })
 
@@ -94,29 +104,33 @@ export default async function OverviewPage({
             >
               <Card className='transition-all hover:shadow-md dark:hover:border-primary/50'>
                 <CardHeader>
-                  <CardTitle>{project.name}</CardTitle>
+                  <div className='flex items-center justify-between'>
+                    <CardTitle>{project.name}</CardTitle>
+                    <div>
+                      {project ? (
+                        <Badge>
+                          <span className='mr-1 h-2 w-2 rounded-full bg-green-500'></span>
+                          Active
+                        </Badge>
+                      ) : (
+                        <Badge>
+                          <span className='mr-1 h-2 w-2 rounded-full bg-red-500'></span>
+                          Inactive
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
                 </CardHeader>
                 <CardFooter className='flex items-center justify-between'>
-                  <div className='flex items-center'>
-                    {project.updated_at && (
-                      <>
-                        <Clock className='mr-1 h-5 w-5' />
-                        <p className='text-sm'>{project.updated_at}</p>
-                      </>
-                    )}
-                  </div>
-                  <div className='flex items-center'>
-                    {project ? (
-                      <Badge variant={'outline'}>
-                        <span className='mr-1 h-2 w-2 rounded-full bg-green-500'></span>
-                        Active
-                      </Badge>
-                    ) : (
-                      <Badge variant={'outline'}>
-                        <span className='mr-1 h-2 w-2 rounded-full bg-red-500'></span>
-                        Inactive
-                      </Badge>
-                    )}
+                  <div className='flex items-center space-x-2'>
+                    <div className='flex'>
+                      <Document className='mr-1 h-5 w-5' />
+                      <p className='text-sm'>{project.count} documents</p>
+                    </div>
+                    <div className='flex'>
+                      <Clock className='mr-1 h-5 w-5' />
+                      <p className='text-sm'>{project.updated_at}</p>
+                    </div>
                   </div>
                 </CardFooter>
               </Card>
