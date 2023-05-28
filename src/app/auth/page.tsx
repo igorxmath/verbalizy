@@ -3,7 +3,6 @@
 import { ChevronLeft, GitHub, Google, Spinner } from '#/icons'
 import { Button } from '#/ui/button'
 import { supabaseClient } from '@/lib/supabaseClient'
-import { getURL } from '@/utils/helpers'
 import Link from 'next/link'
 import React, { useState } from 'react'
 
@@ -42,7 +41,7 @@ function UserAuthForm() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
-        redirectTo: `${getURL()}/auth/callback`,
+        redirectTo: `${location.origin}/auth/callback`,
       },
     })
     if (error) {
@@ -55,7 +54,7 @@ function UserAuthForm() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${getURL()}/auth/callback`,
+        redirectTo: `${location.origin}/auth/callback`,
       },
     })
     if (error) {
