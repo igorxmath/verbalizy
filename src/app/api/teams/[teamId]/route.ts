@@ -5,8 +5,6 @@ import { slugSchema, teamSchema } from '@/utils/validation'
 import { type NextRequest, NextResponse } from 'next/server'
 import * as z from 'zod'
 
-export const revalidate = 0
-
 const teamRouteContextSchema = z.object({
   params: z.object({
     teamId: z.string(),
@@ -133,20 +131,7 @@ async function deleteTeam(
       return NextResponse.json({ error: teamError.message }, { status: 500 })
     }
 
-    const { data: personalTeam, error: personalTeamError } = await supabase
-      .from('teams')
-      .select('slug')
-      .match({
-        created_by: session.user.id,
-        is_personal: true,
-      })
-      .single()
-
-    if (personalTeamError) {
-      return NextResponse.json({ error: personalTeamError.message }, { status: 500 })
-    }
-
-    return NextResponse.json({ status: 'ok', personalTeamSlug: personalTeam.slug })
+    return NextResponse.json({ status: 'ok' })
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(JSON.stringify(error.issues), { status: 422 })

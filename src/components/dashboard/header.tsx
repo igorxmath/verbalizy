@@ -1,13 +1,13 @@
 import { Divider } from '#/icons'
 import { NavTabs, UserAccountNav } from '@/components/dashboard/nav'
 import { TeamSwitcher } from '@/components/dashboard/teamSwitcher'
-import { supabaseServer } from '@/lib/supabaseHandler'
+import { supabaseServerComponent } from '@/lib/supabaseHandler'
 import { Team } from '@/types/general.types'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
 export default async function Header({ teamSlug }: { teamSlug: string }) {
-  const supabase = supabaseServer()
+  const supabase = supabaseServerComponent()
 
   const {
     data: { user },

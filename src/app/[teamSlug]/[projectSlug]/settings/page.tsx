@@ -2,17 +2,15 @@ import {
   ConfirmProjectDeletion,
   ProjectSlugForm,
 } from '@/components/dashboard/projectSettingsFields'
-import { supabaseServer } from '@/lib/supabaseHandler'
+import { supabaseServerComponent } from '@/lib/supabaseHandler'
 import { notFound } from 'next/navigation'
-
-export const revalidate = 0
 
 export default async function Page({
   params: { teamSlug, projectSlug },
 }: {
   params: { teamSlug: string; projectSlug: string }
 }) {
-  const supabase = supabaseServer()
+  const supabase = supabaseServerComponent()
 
   const { data: team } = await supabase.from('teams').select('id').eq('slug', teamSlug).single()
 

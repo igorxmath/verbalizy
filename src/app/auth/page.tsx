@@ -2,7 +2,7 @@
 
 import { ChevronLeft, GitHub, Google, Spinner } from '#/icons'
 import { Button } from '#/ui/button'
-import { useSupabase } from '@/hooks/useSupabase'
+import { supabaseClient } from '@/lib/supabaseClient'
 import { getURL } from '@/utils/helpers'
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -32,7 +32,7 @@ export default function LoginPage() {
 }
 
 function UserAuthForm() {
-  const { supabase } = useSupabase()
+  const supabase = supabaseClient()
 
   const [isGitHubLoading, setIsGitHubLoading] = useState(false)
   const [isGoogleLoading, setIsGoogleLoading] = useState(false)
@@ -42,7 +42,7 @@ function UserAuthForm() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
-        redirectTo: `${getURL()}/dashboard`,
+        redirectTo: `${getURL()}/auth/callback`,
       },
     })
     if (error) {
@@ -55,7 +55,7 @@ function UserAuthForm() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${getURL()}/dashboard`,
+        redirectTo: `${getURL()}/auth/callback`,
       },
     })
     if (error) {

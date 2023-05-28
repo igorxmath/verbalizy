@@ -1,7 +1,6 @@
 import '@/styles/globals.css'
 import { AnalyticsWrapper } from '@/components/analytics'
 import { ThemeProvider } from '@/components/themeProvider'
-import SupabaseProvider from '@/hooks/useSupabase'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
@@ -61,7 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           defaultTheme='system'
           enableSystem
         >
-          <SupabaseProvider>{children}</SupabaseProvider>
+          {children}
         </ThemeProvider>
         <AnalyticsWrapper />
       </body>

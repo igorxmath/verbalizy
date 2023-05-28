@@ -1,6 +1,6 @@
 'use client'
 
-import { Columns, Logout, Settings } from '#/icons'
+import { Columns, Logout, Settings, Spinner } from '#/icons'
 import { Avatar, AvatarImage, AvatarFallback } from '#/ui/avatar'
 import { Button } from '#/ui/button'
 import {
@@ -10,10 +10,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '#/ui/dropdownMenu'
-import { useSupabase } from '@/hooks/useSupabase'
+import { handleSignOut } from '@/actions/auth'
 import { cn, projectSegments, teamSegments } from '@/utils/helpers'
 import Link from 'next/link'
 import { useParams, useSelectedLayoutSegments } from 'next/navigation'
+import * as React from 'react'
 
 export function NavTabs() {
   const allSelectedSegments = useSelectedLayoutSegments()
@@ -62,7 +63,8 @@ export function UserAccountNav({
   email: string
   avatar: string
 }) {
-  const { supabase } = useSupabase()
+  const [isPending, startTransition] = React.useTransition()
+
   const { teamSlug } = useParams()
 
   return (
@@ -102,10 +104,14 @@ export function UserAccountNav({
           className='cursor-pointer'
           onSelect={(event) => {
             event.preventDefault()
-            supabase.auth.signOut()
+            startTransition(() => handleSignOut())
           }}
         >
-          <Logout className='mr-2 h-4 w-4' />
+          {isPending ? (
+            <Spinner className='mr-2 h-4 w-4 animate-spin' />
+          ) : (
+            <Logout className='mr-2 h-4 w-4' />
+          )}
           Sign out
         </DropdownMenuItem>
       </DropdownMenuContent>

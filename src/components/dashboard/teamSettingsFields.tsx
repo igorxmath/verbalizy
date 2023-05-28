@@ -209,12 +209,10 @@ export function ConfirmTeamDeletion({ team }: { team: Team }) {
       })
     }
 
-    const { personalTeamSlug } = await res.json()
-
     setIsLoading(false)
 
     toast({ description: 'Team deleted!' })
-    push(`/${personalTeamSlug}`)
+    push('/dashboard')
     refresh()
   }
 

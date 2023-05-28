@@ -3,8 +3,6 @@ import { supabaseRoute } from '@/lib/supabaseHandler'
 import { generateRandomSlug, getAvailableTeamSlug, slugFromEmail, slugify } from '@/utils/slugify'
 import { NextResponse } from 'next/server'
 
-export const revalidate = 0
-
 async function initPersonalTeam(): Promise<NextResponse> {
   const supabase = supabaseRoute()
 

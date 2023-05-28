@@ -3,13 +3,11 @@ import { Badge } from '#/ui/badge'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '#/ui/card'
 import NewProjectDialog from '@/components/dashboard/projectDialog'
 import SearchBar from '@/components/dashboard/searchBar'
-import { supabaseServer } from '@/lib/supabaseHandler'
+import { supabaseServerComponent } from '@/lib/supabaseHandler'
 import { timeSince } from '@/utils/helpers'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-
-export const revalidate = 0
 
 export default async function OverviewPage({
   params: { teamSlug },
@@ -20,7 +18,7 @@ export default async function OverviewPage({
 }) {
   const { search } = searchParams || {}
 
-  const supabase = supabaseServer()
+  const supabase = supabaseServerComponent()
 
   const { data: team } = await supabase.from('teams').select('id').eq('slug', teamSlug).single()
 

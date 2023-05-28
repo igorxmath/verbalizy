@@ -5,8 +5,6 @@ import { teamSchema } from '@/utils/validation'
 import { type NextRequest, NextResponse } from 'next/server'
 import * as z from 'zod'
 
-export const revalidate = 0
-
 async function addTeam(request: NextRequest): Promise<NextResponse> {
   try {
     const json = await request.json()

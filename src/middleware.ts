@@ -1,13 +1,13 @@
 import type { Database } from '@/types/database.types'
-import { createMiddlewareSupabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export default async function middleware(req: NextRequest): Promise<Response | undefined> {
+export default async function middleware(req: NextRequest): Promise<NextResponse> {
   const res = NextResponse.next()
 
   const pathname = req.nextUrl.pathname
 
-  const supabase = createMiddlewareSupabaseClient<Database>({ req, res })
+  const supabase = createMiddlewareClient<Database>({ req, res })
   const {
     data: { session },
   } = await supabase.auth.getSession()
@@ -19,8 +19,11 @@ export default async function middleware(req: NextRequest): Promise<Response | u
   }
 
   if (pathname.startsWith('/dashboard')) {
-    const { data } = await supabase.from('teams').select('slug').eq('is_personal', true).single()
-    return NextResponse.redirect(new URL(`${data?.slug}`, req.url))
+    if (session) {
+      const { data } = await supabase.from('teams').select('slug').eq('is_personal', true).single()
+
+      return NextResponse.redirect(new URL(`${data?.slug}`, req.url))
+    }
   }
 
   return res

@@ -4,12 +4,10 @@ import {
   TeamNameForm,
   TeamSlugForm,
 } from '@/components/dashboard/teamSettingsFields'
-import { supabaseServer } from '@/lib/supabaseHandler'
-
-export const revalidate = 0
+import { supabaseServerComponent } from '@/lib/supabaseHandler'
 
 export default async function Settings({ params: { teamSlug } }: { params: { teamSlug: string } }) {
-  const supabase = supabaseServer()
+  const supabase = supabaseServerComponent()
 
   const { data: team } = await supabase.from('teams').select('*').eq('slug', teamSlug).single()
 

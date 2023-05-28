@@ -3,13 +3,13 @@
 import { Search, Spinner } from '#/icons'
 import { Input } from '#/ui/input'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useTransition } from 'react'
+import * as React from 'react'
 
 export default function SearchBar() {
   const pathname = usePathname()
   const searchParam = useSearchParams()
   const { replace } = useRouter()
-  const [isPeding, startTransition] = useTransition()
+  const [isPeding, startTransition] = React.useTransition()
 
   const handleSearch = (term: string) => {
     const params = new URLSearchParams(window.location.search)
