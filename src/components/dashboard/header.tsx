@@ -17,16 +17,6 @@ export default async function Header({ teamSlug }: { teamSlug: string }) {
     redirect('/auth')
   }
 
-  if (teamSlug === 'dashboard') {
-    const { data } = await supabase.from('teams').select('slug').eq('is_personal', true).single()
-
-    if (!data || !data.slug) {
-      return <p>Create a slug</p>
-    }
-
-    return redirect(data.slug)
-  }
-
   const { name, email, avatar_url } = user.user_metadata
 
   const { data } = await supabase

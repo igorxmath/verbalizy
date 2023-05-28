@@ -10,7 +10,7 @@ export default async function Page({ params: { docId } }: { params: { docId: str
   const { data: document } = await supabase.from('documents').select('*').eq('id', docId).single()
 
   if (!document) {
-    return notFound()
+    notFound()
   }
 
   return <Editor document={document} />

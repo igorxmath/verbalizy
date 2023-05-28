@@ -23,7 +23,7 @@ export default async function Page({
     .single()
 
   if (!project) {
-    return notFound()
+    notFound()
   }
 
   return (

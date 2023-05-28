@@ -22,7 +22,7 @@ export default async function Project({
     .single()
 
   if (!project) {
-    return notFound()
+    notFound()
   }
 
   const { data: documents, error } = await supabase

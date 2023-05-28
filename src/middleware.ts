@@ -18,6 +18,11 @@ export default async function middleware(req: NextRequest): Promise<Response | u
     }
   }
 
+  if (pathname.startsWith('/dashboard')) {
+    const { data } = await supabase.from('teams').select('slug').eq('is_personal', true).single()
+    return NextResponse.redirect(new URL(`${data?.slug}`, req.url))
+  }
+
   return res
 }
 

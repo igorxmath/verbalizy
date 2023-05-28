@@ -25,7 +25,7 @@ export default async function OverviewPage({
   const { data: team } = await supabase.from('teams').select('id').eq('slug', teamSlug).single()
 
   if (!team) {
-    return notFound()
+    notFound()
   }
 
   const projectsQuery = supabase.from('projects').select('*').eq('team_id', team.id)
