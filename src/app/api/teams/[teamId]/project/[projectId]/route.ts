@@ -4,6 +4,8 @@ import { slugSchema } from '@/utils/validation'
 import { type NextRequest, NextResponse } from 'next/server'
 import * as z from 'zod'
 
+export const revalidate = 0
+
 const teamProjectRouteContextSchema = z.object({
   params: z.object({
     teamId: z.string(),

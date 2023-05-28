@@ -2,6 +2,8 @@ import Editor from '@/components/dashboard/editor'
 import { supabaseServerComponent } from '@/lib/supabaseHandler'
 import { notFound } from 'next/navigation'
 
+export const revalidate = 0
+
 export default async function Page({ params: { docId } }: { params: { docId: string } }) {
   const supabase = supabaseServerComponent()
 

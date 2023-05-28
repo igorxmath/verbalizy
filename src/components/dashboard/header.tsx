@@ -6,6 +6,8 @@ import { Team } from '@/types/general.types'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
+export const revalidate = 0
+
 export default async function Header({ teamSlug }: { teamSlug: string }) {
   const supabase = supabaseServerComponent()
 

@@ -3,6 +3,8 @@ import { documentSchema } from '@/utils/validation'
 import { type NextRequest, NextResponse } from 'next/server'
 import * as z from 'zod'
 
+export const revalidate = 0
+
 const documentRouteContextSchema = z.object({
   params: z.object({
     docId: z.string(),

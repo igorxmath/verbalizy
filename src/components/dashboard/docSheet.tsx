@@ -5,6 +5,7 @@ import { Button } from '#/ui/button'
 import { Input } from '#/ui/input'
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -118,6 +119,14 @@ export function DocSheet({ projectId }: { projectId: Project['id'] }) {
               </div>
             </div>
             <SheetFooter>
+              <SheetClose asChild>
+                <Button
+                  variant={'secondary'}
+                  className='mt-2 sm:mt-0'
+                >
+                  Cancel
+                </Button>
+              </SheetClose>
               <Button
                 type='submit'
                 disabled={isLoading}

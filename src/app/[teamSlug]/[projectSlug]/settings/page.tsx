@@ -5,6 +5,8 @@ import {
 import { supabaseServerComponent } from '@/lib/supabaseHandler'
 import { notFound } from 'next/navigation'
 
+export const revalidate = 0
+
 export default async function Page({
   params: { teamSlug, projectSlug },
 }: {

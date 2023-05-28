@@ -4,6 +4,8 @@ import { DocSheet } from '@/components/dashboard/docSheet'
 import { supabaseServerComponent } from '@/lib/supabaseHandler'
 import { notFound } from 'next/navigation'
 
+export const revalidate = 0
+
 export default async function Project({
   params: { teamSlug, projectSlug },
 }: {

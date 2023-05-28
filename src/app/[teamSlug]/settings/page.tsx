@@ -6,6 +6,8 @@ import {
 } from '@/components/dashboard/teamSettingsFields'
 import { supabaseServerComponent } from '@/lib/supabaseHandler'
 
+export const revalidate = 0
+
 export default async function Settings({ params: { teamSlug } }: { params: { teamSlug: string } }) {
   const supabase = supabaseServerComponent()
 
