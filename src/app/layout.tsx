@@ -24,12 +24,12 @@ export const metadata: Metadata = {
     title: 'Verbalizy',
     siteName: 'Verbalizy',
     description: 'A simple way to train your GPT-3 model',
-    url: 'https://verbalizy.com/',
+    url: 'https://verbalizy.vercel.app/',
     type: 'website',
     locale: 'pt-BR',
     images: [
       {
-        url: 'https://verbalizy.com/og.png',
+        url: '/og.png',
         width: 1200,
         height: 630,
       },
