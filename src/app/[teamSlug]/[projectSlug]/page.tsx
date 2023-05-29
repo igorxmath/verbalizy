@@ -39,7 +39,7 @@ export default async function Project({
       <div className='border-b'>
         <div className='max-auto container flex flex-col justify-between space-y-4 px-4 py-8 sm:flex-row sm:space-y-0'>
           <h1 className='font-heading text-3xl md:text-4xl'>Documents</h1>
-          <div className='space-x-4'>
+          <div className='flex space-x-4'>
             <DocSheet projectId={project.id} />
           </div>
         </div>

@@ -13,13 +13,12 @@ export default function SearchBar() {
 
   const handleSearch = (term: string) => {
     const params = new URLSearchParams(window.location.search)
+
     if (term) {
       params.set('search', term)
     } else {
       params.delete('search')
     }
-
-    params.delete('page')
 
     startTransition(() => {
       replace(`${pathname}?${params.toString()}`)
