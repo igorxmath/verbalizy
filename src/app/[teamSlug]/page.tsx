@@ -1,6 +1,7 @@
 import { Clock, Document } from '#/icons'
 import { Badge } from '#/ui/badge'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '#/ui/card'
+import { Avatar, AvatarFallback, AvatarImage } from '#/ui/avatar'
 import NewProjectDialog from '@/components/dashboard/projectDialog'
 import SearchBar from '@/components/dashboard/searchBar'
 import { supabaseServerComponent } from '@/lib/supabaseHandler'
@@ -105,7 +106,18 @@ export default async function OverviewPage({
               <Card className='transition-all hover:shadow-md dark:hover:border-primary/50'>
                 <CardHeader>
                   <div className='flex items-center justify-between'>
-                    <CardTitle>{project.name}</CardTitle>
+                    <CardTitle>
+                      <div className='row flex items-center'>
+                        <Avatar className='mr-2 h-5 w-5'>
+                          <AvatarImage
+                            src={`https://avatar.vercel.sh/${project.slug}.png`}
+                            alt={project.name}
+                          />
+                          <AvatarFallback>SC</AvatarFallback>
+                        </Avatar>
+                        {project.name}
+                      </div>
+                    </CardTitle>
                     <div>
                       {project ? (
                         <Badge>
