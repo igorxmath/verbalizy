@@ -1,7 +1,7 @@
 import { Toaster } from '#/ui/toaster'
-import Footer from '@/components/dashboard/footer'
-import Header from '@/components/dashboard/header'
-import LoadingNav from '@/components/dashboard/loadingNav'
+import Footer from '#/dashboard/footer'
+import Header from '#/dashboard/header'
+import LoadingNav from '#/dashboard/loadingNav'
 import { Suspense } from 'react'
 import { Metadata } from 'next'
 

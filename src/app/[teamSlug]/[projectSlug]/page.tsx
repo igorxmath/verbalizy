@@ -1,6 +1,6 @@
-import { columns } from '@/components/dashboard/data/columns'
-import { DataTable } from '@/components/dashboard/data/dataTable'
-import { DocSheet } from '@/components/dashboard/docSheet'
+import { columns } from '#/dashboard/data/columns'
+import { DataTable } from '#/dashboard/data/dataTable'
+import { DocSheet } from '#/dashboard/docSheet'
 import { supabaseServerComponent } from '@/lib/supabaseHandler'
 import { notFound } from 'next/navigation'
 

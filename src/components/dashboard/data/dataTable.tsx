@@ -4,9 +4,9 @@ import { Search } from '#/icons'
 import { Input } from '#/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '#/ui/table'
 import { DataTableFacetedFilter } from './dataTableFilter'
-import { statuses } from '@/components/dashboard/data/columns'
-import { DataTablePagination } from '@/components/dashboard/data/dataTablePagination'
-import { DataTableViewOptions } from '@/components/dashboard/data/dataTableViewOptions'
+import { statuses } from '#/dashboard/data/columns'
+import { DataTablePagination } from '#/dashboard/data/dataTablePagination'
+import { DataTableViewOptions } from '#/dashboard/data/dataTableViewOptions'
 import {
   ColumnDef,
   ColumnFiltersState,

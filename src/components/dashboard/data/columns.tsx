@@ -2,7 +2,7 @@
 
 import { Badge } from '#/ui/badge'
 import { DocOperations } from './docOperator'
-import { DataTableColumnHeader } from '@/components/dashboard/data/dataTableHeader'
+import { DataTableColumnHeader } from '#/dashboard/data/dataTableHeader'
 import { Document, DocumentStatus } from '@/types/general.types'
 import { cn, timeSince } from '@/utils/helpers'
 import { ColumnDef } from '@tanstack/react-table'

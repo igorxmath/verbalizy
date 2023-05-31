@@ -1,4 +1,4 @@
-import Editor from '@/components/dashboard/editor'
+import Editor from '#/dashboard/editor'
 import { supabaseServerComponent } from '@/lib/supabaseHandler'
 import { notFound } from 'next/navigation'
 

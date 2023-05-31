@@ -1,7 +1,4 @@
-import {
-  ConfirmProjectDeletion,
-  ProjectSlugForm,
-} from '@/components/dashboard/projectSettingsFields'
+import { ConfirmProjectDeletion, ProjectSlugForm } from '#/dashboard/projectSettingsFields'
 import { supabaseServerComponent } from '@/lib/supabaseHandler'
 import { notFound } from 'next/navigation'
 

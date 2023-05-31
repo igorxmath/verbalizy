@@ -3,7 +3,7 @@ import {
   ConfirmAccountDeletion,
   TeamNameForm,
   TeamSlugForm,
-} from '@/components/dashboard/teamSettingsFields'
+} from '#/dashboard/teamSettingsFields'
 import { supabaseServerComponent } from '@/lib/supabaseHandler'
 
 export const revalidate = 0

@@ -23,6 +23,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "#/ui/*": ["./src/components/ui/*"],
+      "#/dashboard/*": ["./src/components/dashboard/*"],
       "#/icons": ["./src/components/icons"],
     }
   },

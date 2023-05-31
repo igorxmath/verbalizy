@@ -1,7 +1,5 @@
 'use client'
 
-import { MaxLengthSelector } from '@/components/dashboard/chat/maxlengthSelector'
-import { TemperatureSelector } from '@/components/dashboard/chat/temperatureSelector'
 import {
   Form,
   FormControl,
@@ -11,26 +9,27 @@ import {
   FormLabel,
   FormMessage,
 } from '#/ui/form'
+import { Slider } from '#/ui/slider'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { Input } from '#/ui/input'
+import { Button } from '#/ui/button'
+import { Textarea } from '#/ui/textarea'
 import * as z from 'zod'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
 
 const chatFormSchema = z.object({
   name: z.string().min(2).max(100),
   bio: z.string(),
-  tempSelector: z.tuple([z.number()]),
-  maxLengthSelector: z.tuple([z.number()]),
+  tempSelector: z.tuple([z.number().max(2)]),
+  maxLengthSelector: z.tuple([z.number().max(4001)]),
 })
 
 type FormData = z.infer<typeof chatFormSchema>
 
-export function ChatForm() {
+export function ChatForm(props: FormData) {
   const form = useForm<FormData>({
     resolver: zodResolver(chatFormSchema),
-    defaultValues: { tempSelector: [0.8], maxLengthSelector: [256] },
+    defaultValues: props,
   })
 
   const handleChatFormSubmit = async (formData: FormData) => {
@@ -87,10 +86,28 @@ export function ChatForm() {
           name='maxLengthSelector'
           render={({ field }) => (
             <FormItem>
-              <MaxLengthSelector
-                defaultValue={field.value}
-                onChange={field.onChange}
-              />
+              <div className='flex items-center justify-between'>
+                <FormLabel htmlFor='maxLengthSelector'>Max tokens</FormLabel>
+                <span className='w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border'>
+                  {field.value}
+                </span>
+              </div>
+              <FormControl>
+                <Slider
+                  id='maxLengthSelector'
+                  max={4000}
+                  defaultValue={field.value}
+                  step={10}
+                  onValueChange={field.onChange}
+                  className='[&_[role=slider]]:h-4 [&_[role=slider]]:w-4'
+                  aria-label='Maximum Length'
+                />
+              </FormControl>
+              <FormDescription>
+                The maximum number of tokens to generate. Requests can use up to 2,048 or 4,000
+                tokens, shared between prompt and completion. The exact limit varies by model.
+              </FormDescription>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -99,12 +116,28 @@ export function ChatForm() {
           name='tempSelector'
           render={({ field }) => (
             <FormItem>
+              <div className='flex items-center justify-between'>
+                <FormLabel htmlFor='tempSelector'>Temperature</FormLabel>
+                <span className='w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border'>
+                  {field.value}
+                </span>
+              </div>
               <FormControl>
-                <TemperatureSelector
+                <Slider
+                  id='tempSelector'
+                  max={2}
                   defaultValue={field.value}
-                  onChange={field.onChange}
+                  step={0.1}
+                  onValueChange={field.onChange}
+                  className='[&_[role=slider]]:h-4 [&_[role=slider]]:w-4'
+                  aria-label='Temperature'
                 />
               </FormControl>
+              <FormDescription>
+                Controls randomness: lowering results in less random completions. As the temperature
+                approaches zero, the model will become deterministic and repetitive.
+              </FormDescription>
+              <FormMessage />
             </FormItem>
           )}
         />

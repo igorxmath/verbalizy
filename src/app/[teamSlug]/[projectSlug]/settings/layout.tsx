@@ -1,4 +1,4 @@
-import AsideNav from '@/components/dashboard/asideNav'
+import AsideNav from '#/dashboard/asideNav'
 import React from 'react'
 
 const projectSettingsSegments = [

@@ -1,7 +1,7 @@
 'use client'
 
 import { ChevronLeft, ChevronRight } from '#/icons'
-import { buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '#/ui/button'
 import { cn } from '@/utils/helpers'
 import * as React from 'react'
 import { DayPicker } from 'react-day-picker'

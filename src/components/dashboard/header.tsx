@@ -1,6 +1,6 @@
 import { Divider } from '#/icons'
-import { NavTabs, UserAccountNav } from '@/components/dashboard/nav'
-import { TeamSwitcher } from '@/components/dashboard/teamSwitcher'
+import { NavTabs, UserAccountNav } from '#/dashboard/nav'
+import { TeamSwitcher } from '#/dashboard/teamSwitcher'
 import { supabaseServerComponent } from '@/lib/supabaseHandler'
 import { Team } from '@/types/general.types'
 import Link from 'next/link'
