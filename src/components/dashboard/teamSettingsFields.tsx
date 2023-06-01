@@ -70,7 +70,7 @@ export function TeamSlugForm({
     const { teamSlug } = await res.json()
 
     toast({ description: 'Team slug changed!' })
-    push(`/${teamSlug}`)
+    push(`/${teamSlug}/settings`)
     refresh()
   }
 

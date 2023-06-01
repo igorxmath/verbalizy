@@ -7,29 +7,29 @@ import { Textarea } from '#/ui/textarea'
 import { useToast } from '@/hooks/useToast'
 import { Document } from '@/types/general.types'
 import { useRouter } from 'next/navigation'
-import { Suspense, lazy, useEffect, useRef, useState } from 'react'
+import * as React from 'react'
 
-const MarkdownPreview = lazy(() => import('@/components/markdown/markdownPreview'))
+const MarkdownPreview = React.lazy(() => import('@/components/markdown/markdownPreview'))
 
 export default function Editor({ document }: { document: Document }) {
-  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null)
-  const [isLoading, setIsLoading] = useState<boolean | null>(null)
-  const [preview, setPreview] = useState<boolean>(false)
-  const [value, setValue] = useState<string>(document.content)
+  const [timer, setTimer] = React.useState<NodeJS.Timeout | null>(null)
+  const [isLoading, setIsLoading] = React.useState<boolean | null>(null)
+  const [preview, setPreview] = React.useState<boolean>(false)
+  const [value, setValue] = React.useState<string>(document.content)
 
   const { toast } = useToast()
   const { refresh, back } = useRouter()
 
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const textareaRef = React.useRef<HTMLTextAreaElement>(null)
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto'
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
     }
   }, [value, preview])
 
-  useEffect(() => {
+  React.useEffect(() => {
     return () => {
       if (timer) {
         clearTimeout(timer)
@@ -96,9 +96,12 @@ export default function Editor({ document }: { document: Document }) {
       </div>
       <div className='h-full space-y-2 p-2 md:container'>
         {preview ? (
-          <Suspense fallback={<Spinner className='w-4 animate-spin' />}>
-            <MarkdownPreview markdown={document.content} />
-          </Suspense>
+          <React.Suspense fallback={<Spinner className='w-4 animate-spin' />}>
+            <MarkdownPreview
+              markdown={document.content}
+              className='px-3 py-2'
+            />
+          </React.Suspense>
         ) : (
           <Textarea
             ref={textareaRef}

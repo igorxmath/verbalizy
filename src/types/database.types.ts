@@ -7,20 +7,23 @@ export interface Database {
         Row: {
           content: string | null
           document_id: number
-          embedding: string | null
+          embedding: number[] | null
           id: number
+          metadata: Json | null
         }
         Insert: {
           content?: string | null
           document_id: number
-          embedding?: string | null
+          embedding?: number[] | null
           id?: number
+          metadata?: Json | null
         }
         Update: {
           content?: string | null
           document_id?: number
-          embedding?: string | null
+          embedding?: number[] | null
           id?: number
+          metadata?: Json | null
         }
       }
       documents: {
@@ -176,7 +179,31 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      kw_match_documents: {
+        Args: {
+          query_text: string
+          match_count: number
+        }
+        Returns: {
+          id: number
+          content: string
+          metadata: Json
+          similarity: number
+        }[]
+      }
+      match_documents: {
+        Args: {
+          query_embedding: number[]
+          match_count: number
+          filter?: Json
+        }
+        Returns: {
+          id: number
+          content: string
+          metadata: Json
+          similarity: number
+        }[]
+      }
     }
     Enums: {
       membership_type: 'viewer' | 'admin'

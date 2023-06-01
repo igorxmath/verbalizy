@@ -30,3 +30,9 @@ export const projectRouteContextSchema = z.object({
     projectId: z.string(),
   }),
 })
+
+export const documentRouteContextSchema = z.object({
+  params: z.object({
+    docId: z.string().transform((value) => parseInt(value)),
+  }),
+})

@@ -1,6 +1,6 @@
 'use client'
 
-import { Spinner, Trash, EllipsisVertical, Pen } from '#/icons'
+import { Spinner, Trash, EllipsisVertical, Pen, Brain } from '#/icons'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,11 +26,35 @@ import { useRouter } from 'next/navigation'
 import * as React from 'react'
 
 export function DocOperations({ docId }: { docId: Document['id'] }) {
+  const [showEmbeddingDialog, setShowEmbeddingDialog] = React.useState<boolean>(false)
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   const { refresh } = useRouter()
   const { toast } = useToast()
+
+  const handleGenerateEmbeddings = async () => {
+    setIsLoading(true)
+
+    const response = await fetch(`/api/documents/${docId}/chat`, { method: 'POST' })
+
+    if (!response.ok) {
+      setIsLoading(false)
+      setShowEmbeddingDialog(false)
+      return toast({
+        title: 'Something went wrong.',
+        description: 'Your embedding was not created. Please try again.',
+        variant: 'destructive',
+      })
+    }
+
+    setIsLoading(false)
+    setShowEmbeddingDialog(false)
+    toast({
+      title: 'Success',
+      description: 'Your embedding was created',
+    })
+  }
 
   const handleDeleteDoc = async () => {
     setIsLoading(true)
@@ -49,6 +73,7 @@ export function DocOperations({ docId }: { docId: Document['id'] }) {
     }
 
     setIsLoading(false)
+    setShowDeleteAlert(false)
 
     toast({ description: 'Document deleted' })
     refresh()
@@ -77,6 +102,13 @@ export function DocOperations({ docId }: { docId: Document['id'] }) {
               Edit
             </Link>
           </DropdownMenuItem>
+          <DropdownMenuItem
+            className='flex w-full'
+            onSelect={() => setShowEmbeddingDialog(true)}
+          >
+            <Brain className='mr-2 h-4 w-4' />
+            Train
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className='flex cursor-pointer items-center text-destructive focus:text-destructive'
@@ -97,8 +129,9 @@ export function DocOperations({ docId }: { docId: Document['id'] }) {
             <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
             <AlertDialogAction
+              disabled={isLoading}
               onClick={(e) => {
                 e.preventDefault()
                 handleDeleteDoc()
@@ -110,6 +143,30 @@ export function DocOperations({ docId }: { docId: Document['id'] }) {
                 <Trash className='mr-2 h-4 w-4' />
               )}
               <span>Delete</span>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog
+        open={showEmbeddingDialog}
+        onOpenChange={setShowEmbeddingDialog}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>generate embeddings</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              disabled={isLoading}
+              onClick={(e) => {
+                e.preventDefault()
+                handleGenerateEmbeddings()
+              }}
+            >
+              {isLoading && <Spinner className='mr-2 h-4 w-4 animate-spin' />}
+              Continue
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
