@@ -7,11 +7,13 @@ import { DataTableFacetedFilter } from './dataTableFilter'
 import { statuses } from '#/dashboard/data/columns'
 import { DataTablePagination } from '#/dashboard/data/dataTablePagination'
 import { DataTableViewOptions } from '#/dashboard/data/dataTableViewOptions'
-import {
+import type {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
   VisibilityState,
+} from '@tanstack/react-table'
+import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,

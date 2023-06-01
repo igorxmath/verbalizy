@@ -2,7 +2,7 @@ import { Divider } from '#/icons'
 import { NavTabs, UserAccountNav } from '#/dashboard/nav'
 import { TeamSwitcher } from '#/dashboard/teamSwitcher'
 import { supabaseServerComponent } from '@/lib/supabaseHandler'
-import { Team } from '@/types/general.types'
+import type { Team } from '@/types/general.types'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 

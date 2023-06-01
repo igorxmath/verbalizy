@@ -5,7 +5,7 @@ import { Button } from '#/ui/button'
 import { Toggle } from '#/ui/toggle'
 import { Textarea } from '#/ui/textarea'
 import { useToast } from '@/hooks/useToast'
-import { Document } from '@/types/general.types'
+import type { Document } from '@/types/general.types'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
 
@@ -49,7 +49,10 @@ export default function Editor({ document }: { document: Document }) {
     const newTimer = setTimeout(async () => {
       const response = await fetch(`/api/documents/${document.id}`, {
         method: 'PATCH',
-        body: JSON.stringify({ name: document.name, content: newContent }),
+        body: JSON.stringify({
+          name: document.name,
+          content: newContent,
+        }),
       })
       if (!response.ok) {
         return toast({

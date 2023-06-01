@@ -19,13 +19,13 @@ import { Label } from '#/ui/label'
 import { Switch } from '#/ui/switch'
 import { Form, FormField, FormItem, FormControl, FormMessage } from '#/ui/form'
 import { useToast } from '@/hooks/useToast'
-import { Team } from '@/types/general.types'
+import type { Team } from '@/types/general.types'
 import { slugSchema, teamSchema } from '@/utils/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import type * as z from 'zod'
 
 type SlugFormData = z.infer<typeof slugSchema>
 

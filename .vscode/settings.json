@@ -29,6 +29,8 @@
     "playground": "plugin"
   },
 
+  "editor.linkedEditing": true,
+
   "explorer.fileNesting.patterns": {
     "next.config.*": ".env.*, package.json, prettier.config.cjs, postcss.config.cjs, next-env.*, tailwind.config.ts, tsconfig.json, .prettierrc.*, .eslintrc.*, .gitignore, README.md"
   }

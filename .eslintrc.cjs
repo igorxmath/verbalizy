@@ -20,6 +20,7 @@ const config = {
     sourceType: 'module',
   },
   plugins: ['@typescript-eslint'],
+  rules: { '@typescript-eslint/consistent-type-imports': 'error' },
 }
 
 module.exports = config

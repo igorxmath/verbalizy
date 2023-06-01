@@ -3,9 +3,9 @@
 import { Badge } from '#/ui/badge'
 import { DocOperations } from './docOperator'
 import { DataTableColumnHeader } from '#/dashboard/data/dataTableHeader'
-import { Document, DocumentStatus } from '@/types/general.types'
+import type { Document, DocumentStatus } from '@/types/general.types'
 import { cn, timeSince } from '@/utils/helpers'
-import { ColumnDef } from '@tanstack/react-table'
+import type { ColumnDef } from '@tanstack/react-table'
 import Link from 'next/link'
 
 export const statuses: { value: DocumentStatus; label: string; color: string }[] = [

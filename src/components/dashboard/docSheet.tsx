@@ -20,9 +20,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as React from 'react'
 import { useToast } from '@/hooks/useToast'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import type * as z from 'zod'
 import { useRouter } from 'next/navigation'
-import { Project } from '@/types/general.types'
+import type { Project } from '@/types/general.types'
 
 type FormData = z.infer<typeof documentSchema>
 

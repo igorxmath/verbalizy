@@ -1,4 +1,4 @@
-import { ToastActionElement, type ToastProps } from '#/ui/toast'
+import type { ToastActionElement, ToastProps } from '#/ui/toast'
 import * as React from 'react'
 
 const TOAST_LIMIT = 1

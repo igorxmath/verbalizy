@@ -31,7 +31,7 @@ import { useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@/hooks/useToast'
-import * as z from 'zod'
+import type * as z from 'zod'
 
 type FormData = z.infer<typeof teamSchema>
 

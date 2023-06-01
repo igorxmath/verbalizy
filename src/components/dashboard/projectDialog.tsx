@@ -20,8 +20,8 @@ import * as React from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/useToast'
-import * as z from 'zod'
-import { Team } from '@/types/general.types'
+import type * as z from 'zod'
+import type { Team } from '@/types/general.types'
 
 type FormData = z.infer<typeof projectSchema>
 

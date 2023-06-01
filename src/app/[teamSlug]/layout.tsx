@@ -3,7 +3,7 @@ import Footer from '#/dashboard/footer'
 import Header from '#/dashboard/header'
 import LoadingNav from '#/dashboard/loadingNav'
 import { Suspense } from 'react'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Dashboard',

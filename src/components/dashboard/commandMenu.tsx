@@ -12,7 +12,7 @@ import {
   CommandSeparator,
 } from '#/ui/command'
 import { cn, teamSegments } from '@/utils/helpers'
-import { DialogProps } from '@radix-ui/react-alert-dialog'
+import type { DialogProps } from '@radix-ui/react-alert-dialog'
 import { useTheme } from 'next-themes'
 import { useParams, useRouter } from 'next/navigation'
 import * as React from 'react'

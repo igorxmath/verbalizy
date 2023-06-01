@@ -20,7 +20,7 @@ import {
   DropdownMenuTrigger,
 } from '#/ui/dropdownMenu'
 import { useToast } from '@/hooks/useToast'
-import { Document } from '@/types/general.types'
+import type { Document } from '@/types/general.types'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
