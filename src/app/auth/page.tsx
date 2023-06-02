@@ -3,8 +3,9 @@
 import { ChevronLeft, GitHub, Google, Spinner } from '#/icons'
 import { Button } from '#/ui/button'
 import { supabaseClient } from '@/lib/supabaseClient'
+import { useToast } from '@/hooks/useToast'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import * as React from 'react'
 
 export default function LoginPage() {
   return (
@@ -31,34 +32,26 @@ export default function LoginPage() {
 }
 
 function UserAuthForm() {
+  const [isLoading, setIsLoading] = React.useState<'google' | 'github' | null>(null)
+
+  const { toast } = useToast()
+
   const supabase = supabaseClient()
 
-  const [isGitHubLoading, setIsGitHubLoading] = useState(false)
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false)
-
-  const handleLoginWithGitHub = async () => {
-    setIsGitHubLoading(true)
+  const handleLogin = async (provider: 'google' | 'github') => {
+    setIsLoading(provider)
     const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'github',
+      provider,
       options: {
         redirectTo: `${location.origin}/auth/callback`,
       },
     })
     if (error) {
-      setIsGitHubLoading(false)
-    }
-  }
-
-  const handleLoginWithGoogle = async () => {
-    setIsGoogleLoading(true)
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${location.origin}/auth/callback`,
-      },
-    })
-    if (error) {
-      setIsGoogleLoading(false)
+      setIsLoading(null)
+      toast({
+        description: 'Something went wrong. Please try again.',
+        variant: 'destructive',
+      })
     }
   }
 
@@ -76,10 +69,10 @@ function UserAuthForm() {
         <Button
           type='button'
           variant={'outline'}
-          disabled={isGitHubLoading}
-          onClick={handleLoginWithGitHub}
+          disabled={isLoading === 'github'}
+          onClick={() => handleLogin('github')}
         >
-          {isGitHubLoading ? (
+          {isLoading === 'github' ? (
             <Spinner className='mr-2 h-4 w-4 animate-spin' />
           ) : (
             <GitHub className='mr-2 h-4 w-4' />
@@ -89,10 +82,10 @@ function UserAuthForm() {
         <Button
           type='button'
           variant={'outline'}
-          disabled={isGoogleLoading}
-          onClick={handleLoginWithGoogle}
+          disabled={isLoading === 'google'}
+          onClick={() => handleLogin('google')}
         >
-          {isGoogleLoading ? (
+          {isLoading === 'google' ? (
             <Spinner className='mr-2 h-4 w-4 animate-spin' />
           ) : (
             <Google className='mr-2 h-4 w-4' />

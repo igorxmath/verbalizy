@@ -56,8 +56,7 @@ export default function Editor({ document }: { document: Document }) {
       })
       if (!response.ok) {
         return toast({
-          title: 'Something went wrong.',
-          description: 'Your document was not updated. Please try again.',
+          description: 'Something went wrong. Please try again.',
           variant: 'destructive',
         })
       }

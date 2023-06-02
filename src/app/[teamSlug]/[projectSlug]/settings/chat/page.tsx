@@ -34,8 +34,8 @@ export default async function Page({
       </div>
       <Separator />
       <ChatForm
-        name={project.name}
-        bio={project.slug}
+        name={project.bot_name || ''}
+        bio={project.bot_bio || ''}
         tempSelector={[0.8]}
         maxLengthSelector={[256]}
       />

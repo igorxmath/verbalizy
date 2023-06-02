@@ -5,8 +5,7 @@ create table users (
   full_name                    text,
   email                        text unique not null,
   avatar_url                   text,
-  has_completed_onboarding     boolean not null default false,
-  subscribe_to_product_updates boolean not null default false
+  has_completed_onboarding     boolean not null default false
 );
 
 -- Teams
@@ -44,12 +43,15 @@ create table public.projects (
   slug                text not null,
   name                text not null,
   team_id             uuid references public.teams on delete cascade not null,
-  is_starter          boolean not null default false,
-  created_by          uuid references public.users not null
+  created_by          uuid references public.users not null,
+  bot_name            text,
+  bot_bio             text,
+  temperature         int default 1 not null,
+  max_tokens          int default 256 not null
 );
 comment on table public.projects is 'Projects within a team.';
 
--- documents
+-- Documents
 create type status_type as enum ('ready', 'trained', 'error');
 
 create table public.documents (
@@ -58,7 +60,8 @@ create table public.documents (
   content     text not null,
   project_id  uuid references public.projects on delete cascade not null,
   status      status_type not null,
-  updated_at  timestamp with time zone default timezone('utc'::text, now()) not null
+  inserted_at  timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone not null
 );
 
 -- Document sections
@@ -280,3 +283,10 @@ alter table document_sections
 
 -- No policies for document_sections: they are inaccessible to the client,
 -- and only edited on the server with service_role access.
+
+-- Indexes
+
+create index idx_documents_projects_id on documents(project_id);
+create index idx_document_sections_file_id on document_sections(document_id);
+create index idx_projects_team_id on projects(team_id);
+create index idx_memberships_user_id on memberships(user_id);

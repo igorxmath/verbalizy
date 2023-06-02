@@ -3,6 +3,7 @@
 import { Search, Spinner } from '#/icons'
 import { Input } from '#/ui/input'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import type { Route } from 'next'
 import * as React from 'react'
 
 export default function SearchBar() {
@@ -21,7 +22,7 @@ export default function SearchBar() {
     }
 
     startTransition(() => {
-      replace(`${pathname}?${params.toString()}`)
+      replace(`${pathname}?${params.toString()}` as Route)
     })
   }
 

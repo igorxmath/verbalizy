@@ -1,11 +1,12 @@
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import { supabaseRoute } from '@/lib/supabaseHandler'
+import { getURL } from '@/utils/helpers'
 import { generateRandomSlug, getAvailableTeamSlug, slugFromEmail, slugify } from '@/utils/slugify'
-import { NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 
 export const revalidate = 0
 
-async function initPersonalTeam(): Promise<NextResponse> {
+async function initPersonalTeam(request: NextRequest): Promise<NextResponse> {
   const supabase = supabaseRoute()
 
   const {
@@ -18,14 +19,14 @@ async function initPersonalTeam(): Promise<NextResponse> {
 
   const { data: hasTeam } = await supabase
     .from('teams')
-    .select('id')
+    .select('id, slug')
     .match({ created_by: user.id, is_personal: true })
     .limit(1)
     .select()
     .maybeSingle()
 
   if (hasTeam) {
-    return NextResponse.json({ error: 'You alreay have a personal team' }, { status: 400 })
+    return NextResponse.redirect(new URL(hasTeam.slug, getURL()))
   }
 
   let candidateSlug = ''
@@ -78,7 +79,7 @@ async function initPersonalTeam(): Promise<NextResponse> {
     }
   }
 
-  return NextResponse.json({ status: 'ok' })
+  return NextResponse.redirect(new URL(slug, getURL()))
 }
 
 export { initPersonalTeam as GET }

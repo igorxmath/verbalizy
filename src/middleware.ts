@@ -22,7 +22,11 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
     if (session) {
       const { data } = await supabase.from('teams').select('slug').eq('is_personal', true).single()
 
-      return NextResponse.redirect(new URL(`${data?.slug}`, req.url))
+      if (!data) {
+        return NextResponse.redirect(new URL('/api/users/init', req.url))
+      }
+
+      return NextResponse.redirect(new URL(`${data.slug}`, req.url))
     }
   }
 

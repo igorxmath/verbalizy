@@ -59,8 +59,7 @@ export function TeamSlugForm({
     if (!res.ok) {
       setIsLoading(false)
       return toast({
-        title: 'Something went wrong.',
-        description: 'Please try again.',
+        description: 'Something went wrong. Please try again.',
         variant: 'destructive',
       })
     }
@@ -143,8 +142,7 @@ export function TeamNameForm({ team }: { team: Team }) {
     if (!res.ok) {
       setIsLoading(false)
       return toast({
-        title: 'Something went wrong.',
-        description: 'Please try again.',
+        description: 'Something went wrong. Please try again.',
         variant: 'destructive',
       })
     }
@@ -203,8 +201,7 @@ export function ConfirmTeamDeletion({ team }: { team: Team }) {
     if (!res.ok) {
       setIsLoading(false)
       return toast({
-        title: 'Something went wrong.',
-        description: 'Please try again.',
+        description: 'Something went wrong. Please try again.',
         variant: 'destructive',
       })
     }

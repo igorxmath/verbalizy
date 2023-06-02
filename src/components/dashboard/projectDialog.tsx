@@ -50,8 +50,7 @@ export default function NewProjectDialog({
     if (!res.ok) {
       setIsLoading(false)
       return toast({
-        title: 'Something went wrong.',
-        description: 'Please try again.',
+        description: 'Something went wrong. Please try again.',
         variant: 'destructive',
       })
     }

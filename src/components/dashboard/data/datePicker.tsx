@@ -9,6 +9,7 @@ import { Calendar } from '#/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '#/ui/popover'
 import { type DayClickEventHandler } from 'react-day-picker'
 import { usePathname, useRouter } from 'next/navigation'
+import type { Route } from 'next'
 
 export function DatePicker() {
   const [date, setDate] = React.useState<Date>()
@@ -29,7 +30,7 @@ export function DatePicker() {
     }
 
     startTransition(() => {
-      replace(`${pathname}?${params.toString()}`)
+      replace(`${pathname}?${params.toString()}` as Route)
     })
   }
 

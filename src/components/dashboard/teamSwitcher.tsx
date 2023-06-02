@@ -32,6 +32,7 @@ import * as React from 'react'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@/hooks/useToast'
 import type * as z from 'zod'
+import type { Route } from 'next'
 
 type FormData = z.infer<typeof teamSchema>
 
@@ -64,8 +65,7 @@ export function TeamSwitcher({ groups, selected }: { groups: Groups[]; selected:
     if (!res.ok) {
       setIsLoading(false)
       return toast({
-        title: 'Something went wrong.',
-        description: 'Please try again.',
+        description: 'Something went wrong. Please try again.',
         variant: 'destructive',
       })
     }
@@ -125,7 +125,7 @@ export function TeamSwitcher({ groups, selected }: { groups: Groups[]; selected:
                         onSelect={() => {
                           setSelectedTeam(team)
                           setOpen(false)
-                          push(team.slug)
+                          push(team.slug as Route)
                         }}
                         className='text-sm'
                       >

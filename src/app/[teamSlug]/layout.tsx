@@ -19,7 +19,6 @@ export default async function DashboardLayout({
   return (
     <>
       <Suspense fallback={<LoadingNav />}>
-        {/* @ts-expect-error Server Component */}
         <Header teamSlug={teamSlug} />
       </Suspense>
       <main className='flex min-h-screen w-full justify-center'>{children}</main>

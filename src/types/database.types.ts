@@ -30,6 +30,7 @@ export interface Database {
         Row: {
           content: string
           id: number
+          inserted_at: string
           name: string
           project_id: string
           status: Database['public']['Enums']['status_type']
@@ -38,14 +39,16 @@ export interface Database {
         Insert: {
           content: string
           id?: number
+          inserted_at?: string
           name: string
           project_id: string
           status: Database['public']['Enums']['status_type']
-          updated_at?: string
+          updated_at: string
         }
         Update: {
           content?: string
           id?: number
+          inserted_at?: string
           name?: string
           project_id?: string
           status?: Database['public']['Enums']['status_type']
@@ -77,33 +80,42 @@ export interface Database {
       }
       projects: {
         Row: {
+          bot_bio: string | null
+          bot_name: string | null
           created_by: string
           id: string
           inserted_at: string
-          is_starter: boolean
+          max_tokens: number
           name: string
           slug: string
           team_id: string
+          temperature: number
           updated_at: string
         }
         Insert: {
+          bot_bio?: string | null
+          bot_name?: string | null
           created_by: string
           id?: string
           inserted_at?: string
-          is_starter?: boolean
+          max_tokens?: number
           name: string
           slug: string
           team_id: string
+          temperature?: number
           updated_at: string
         }
         Update: {
+          bot_bio?: string | null
+          bot_name?: string | null
           created_by?: string
           id?: string
           inserted_at?: string
-          is_starter?: boolean
+          max_tokens?: number
           name?: string
           slug?: string
           team_id?: string
+          temperature?: number
           updated_at?: string
         }
       }
@@ -127,7 +139,7 @@ export interface Database {
           inserted_at?: string
           is_enterprise_plan?: boolean | null
           is_personal?: boolean | null
-          name?: string | null
+          name: string
           slug: string
           stripe_customer_id?: string | null
           stripe_price_id?: string | null
@@ -139,7 +151,7 @@ export interface Database {
           inserted_at?: string
           is_enterprise_plan?: boolean | null
           is_personal?: boolean | null
-          name?: string | null
+          name?: string
           slug?: string
           stripe_customer_id?: string | null
           stripe_price_id?: string | null
@@ -152,7 +164,6 @@ export interface Database {
           full_name: string | null
           has_completed_onboarding: boolean
           id: string
-          subscribe_to_product_updates: boolean
           updated_at: string | null
         }
         Insert: {
@@ -161,7 +172,6 @@ export interface Database {
           full_name?: string | null
           has_completed_onboarding?: boolean
           id: string
-          subscribe_to_product_updates?: boolean
           updated_at?: string | null
         }
         Update: {
@@ -170,7 +180,6 @@ export interface Database {
           full_name?: string | null
           has_completed_onboarding?: boolean
           id?: string
-          subscribe_to_product_updates?: boolean
           updated_at?: string | null
         }
       }
@@ -179,6 +188,12 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      ivfflathandler: {
+        Args: {
+          '': unknown
+        }
+        Returns: unknown
+      }
       kw_match_documents: {
         Args: {
           query_text: string
@@ -203,6 +218,42 @@ export interface Database {
           metadata: Json
           similarity: number
         }[]
+      }
+      vector_avg: {
+        Args: {
+          '': number[]
+        }
+        Returns: string
+      }
+      vector_dims: {
+        Args: {
+          '': string
+        }
+        Returns: number
+      }
+      vector_norm: {
+        Args: {
+          '': string
+        }
+        Returns: number
+      }
+      vector_out: {
+        Args: {
+          '': string
+        }
+        Returns: unknown
+      }
+      vector_send: {
+        Args: {
+          '': string
+        }
+        Returns: string
+      }
+      vector_typmod_in: {
+        Args: {
+          '': unknown[]
+        }
+        Returns: number
       }
     }
     Enums: {

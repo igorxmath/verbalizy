@@ -42,8 +42,7 @@ export function DocOperations({ docId }: { docId: Document['id'] }) {
       setIsLoading(false)
       setShowEmbeddingDialog(false)
       return toast({
-        title: 'Something went wrong.',
-        description: 'Your embedding was not created. Please try again.',
+        description: 'Something went wrong. Please try again.',
         variant: 'destructive',
       })
     }
@@ -66,8 +65,7 @@ export function DocOperations({ docId }: { docId: Document['id'] }) {
     if (!res.ok) {
       setIsLoading(false)
       return toast({
-        title: 'Something went wrong.',
-        description: 'Please try again.',
+        description: 'Something went wrong. Please try again.',
         variant: 'destructive',
       })
     }

@@ -50,8 +50,7 @@ export function ProjectSlugForm({ project }: { project: Project }) {
     if (!res.ok) {
       setIsLoading(false)
       return toast({
-        title: 'Something went wrong.',
-        description: 'Please try again.',
+        description: 'Something went wrong. Please try again.',
         variant: 'destructive',
       })
     }
@@ -132,8 +131,7 @@ export function ProjectNameForm({ project }: { project: Project }) {
     if (!res.ok) {
       setIsLoading(false)
       return toast({
-        title: 'Something went wrong.',
-        description: 'Please try again.',
+        description: 'Something went wrong. Please try again.',
         variant: 'destructive',
       })
     }
@@ -204,8 +202,7 @@ export function ConfirmProjectDeletion({ project }: { project: Project }) {
     if (!res.ok) {
       setIsLoading(false)
       return toast({
-        title: 'Something went wrong.',
-        description: 'Please try again.',
+        description: 'Something went wrong. Please try again.',
         variant: 'destructive',
       })
     }

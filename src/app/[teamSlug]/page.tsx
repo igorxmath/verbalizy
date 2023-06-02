@@ -9,6 +9,7 @@ import { timeSince } from '@/utils/helpers'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import type { Route } from 'next'
 
 export const revalidate = 0
 
@@ -101,7 +102,7 @@ export default async function OverviewPage({
           {projects.map((project) => (
             <Link
               key={project.id}
-              href={`${teamSlug}/${project.slug}`}
+              href={`${teamSlug}/${project.slug}` as Route}
             >
               <Card className='transition-all hover:shadow-md dark:hover:border-primary/50'>
                 <CardHeader>
