@@ -2,11 +2,11 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import { supabaseRoute } from '@/lib/supabaseHandler'
 import { getURL } from '@/utils/helpers'
 import { generateRandomSlug, getAvailableTeamSlug, slugFromEmail, slugify } from '@/utils/slugify'
-import { type NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
 export const revalidate = 0
 
-async function initPersonalTeam(request: NextRequest): Promise<NextResponse> {
+async function initPersonalTeam(): Promise<NextResponse> {
   const supabase = supabaseRoute()
 
   const {
