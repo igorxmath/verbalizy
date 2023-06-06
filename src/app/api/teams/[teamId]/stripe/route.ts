@@ -1,4 +1,5 @@
 import { stripe } from '@/lib/stripe'
+import { getTeamSubscriptionPlan } from '@/lib/subscription'
 import { supabaseRoute } from '@/lib/supabaseHandler'
 import { type NextRequest, NextResponse } from 'next/server'
 import * as z from 'zod'
@@ -27,8 +28,6 @@ async function createStripeCheckoutSession(
     const json = await request.json()
     const { redirect } = redirectSchema.parse(json)
 
-    console.log(redirect)
-
     const supabase = supabaseRoute()
 
     const {
@@ -37,6 +36,17 @@ async function createStripeCheckoutSession(
 
     if (!session?.user) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    }
+
+    const { isPro, stripeCustomerId } = await getTeamSubscriptionPlan(teamId)
+
+    if (isPro && stripeCustomerId) {
+      const stripeSession = await stripe.billingPortal.sessions.create({
+        customer: stripeCustomerId,
+        return_url: redirect,
+      })
+
+      return NextResponse.json({ status: 'ok', url: stripeSession.url })
     }
 
     const stripeSession = await stripe.checkout.sessions.create({

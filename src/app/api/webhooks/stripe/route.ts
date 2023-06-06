@@ -34,9 +34,7 @@ async function stripeWebhooks(request: NextRequest): Promise<NextResponse> {
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 503 })
     }
-  }
-
-  if (event.type === 'customer.subscription.updated') {
+  } else if (event.type === 'customer.subscription.updated') {
     const subscription = event.data.object as Stripe.Subscription
     const newPriceId = subscription.items.data[0].price.id
     const stripeCustomerId = subscription.customer.toString()
@@ -52,8 +50,7 @@ async function stripeWebhooks(request: NextRequest): Promise<NextResponse> {
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 504 })
     }
-  }
-  if (event.type === 'customer.subscription.deleted') {
+  } else if (event.type === 'customer.subscription.deleted') {
     const subscription = event.data.object as Stripe.Subscription
     const stripeCustomerId = subscription.customer.toString()
 
@@ -69,6 +66,8 @@ async function stripeWebhooks(request: NextRequest): Promise<NextResponse> {
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 505 })
     }
+  } else {
+    return NextResponse.json({ error: 'No event is found' }, { status: 506 })
   }
 
   return NextResponse.json({ status: 'ok' })

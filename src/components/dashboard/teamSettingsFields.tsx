@@ -340,7 +340,7 @@ export function NotificationSwitcher() {
   )
 }
 
-export function StripeCheckoutButton({ teamId }: { teamId: Team['id'] }) {
+export function StripeCheckoutButton({ teamId, isPro }: { teamId: Team['id']; isPro: boolean }) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   const { toast } = useToast()
@@ -371,7 +371,8 @@ export function StripeCheckoutButton({ teamId }: { teamId: Team['id'] }) {
 
   return (
     <Button onClick={handleCreateStripeCheckoutSession}>
-      {isLoading && <Spinner className='mr-2 h-4 w-4 animate-spin' />} Subscribe
+      {isLoading && <Spinner className='mr-2 h-4 w-4 animate-spin' />}
+      {isPro ? 'Manage' : 'Subscribe'}
     </Button>
   )
 }
