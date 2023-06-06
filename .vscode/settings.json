@@ -19,14 +19,21 @@
   "material-icon-theme.folders.associations": {
     "actions": "functions",
     "[teamSlug]": "animation",
+    "[teamId]": "animation",
+    "teams": "animation",
     "[projectSlug]": "project",
+    "[projectId]": "project",
+    "[docId]": "docs",
     "billing": "log",
     "people": "admin",
     "ui": "theme",
     "dashboard": "views",
     "editor": "custom",
     "components": "react-components",
-    "playground": "plugin"
+    "webhooks": "public",
+    "playground": "plugin",
+    "stripe": "cart",
+    "users": "admin"
   },
 
   "editor.linkedEditing": true,

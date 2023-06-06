@@ -26,6 +26,7 @@ import { useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
 import type * as z from 'zod'
+import type { Route } from 'next'
 
 type SlugFormData = z.infer<typeof slugSchema>
 
@@ -336,5 +337,41 @@ export function NotificationSwitcher() {
         <Button>Save Changes</Button>
       </FieldSet.Footer>
     </FieldSet>
+  )
+}
+
+export function StripeCheckoutButton({ teamId }: { teamId: Team['id'] }) {
+  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+
+  const { toast } = useToast()
+  const { push } = useRouter()
+
+  const handleCreateStripeCheckoutSession = async () => {
+    setIsLoading(true)
+
+    const res = await fetch(`/api/teams/${teamId}/stripe`, {
+      method: 'POST',
+      body: JSON.stringify({ redirect: window.location.href }),
+    })
+
+    if (!res.ok) {
+      setIsLoading(false)
+      return toast({
+        description: 'Something went wrong. Please try again.',
+        variant: 'destructive',
+      })
+    }
+
+    setIsLoading(false)
+
+    const { url } = await res.json()
+
+    push(`${url}` as Route)
+  }
+
+  return (
+    <Button onClick={handleCreateStripeCheckoutSession}>
+      {isLoading && <Spinner className='mr-2 h-4 w-4 animate-spin' />} Subscribe
+    </Button>
   )
 }

@@ -1,7 +1,19 @@
-import { Button } from '#/ui/button'
 import { FieldSet } from '#/ui/fieldset'
+import { StripeCheckoutButton } from '@/components/dashboard/teamSettingsFields'
+import { supabaseServerComponent } from '@/lib/supabaseHandler'
+import { notFound } from 'next/navigation'
 
-export default function Page() {
+export const revalidate = 0
+
+export default async function Billing({ params: { teamSlug } }: { params: { teamSlug: string } }) {
+  const supabase = supabaseServerComponent()
+
+  const { data: team } = await supabase.from('teams').select('id').eq('slug', teamSlug).single()
+
+  if (!team) {
+    notFound()
+  }
+
   return (
     <FieldSet>
       <FieldSet.Header>
@@ -14,7 +26,7 @@ export default function Page() {
         Enter your payment details and select your subscription plan.
       </FieldSet.Content>
       <FieldSet.Footer>
-        <Button>Subscribe</Button>
+        <StripeCheckoutButton teamId={team.id} />
       </FieldSet.Footer>
     </FieldSet>
   )
