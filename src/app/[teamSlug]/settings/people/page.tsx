@@ -5,29 +5,33 @@ import { EllipsisVertical } from '#/icons'
 import { Button } from '#/ui/button'
 import { supabaseServerComponent } from '@/lib/supabaseHandler'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
-import type { User } from '@/types/general.types'
+import { notFound } from 'next/navigation'
 
 export default async function Page({ params: { teamSlug } }: { params: { teamSlug: string } }) {
   const supabase = supabaseServerComponent()
 
   const { data: team } = await supabase.from('teams').select('id').eq('slug', teamSlug).single()
 
+  if (!team) {
+    notFound()
+  }
+
   const { data: members } = await supabaseAdmin
     .from('memberships')
     .select('user_id')
-    .eq('team_id', team?.id)
+    .eq('team_id', team.id)
 
-  const users = await Promise.all(
-    (members ?? []).map(async (member) => {
-      const { data: user } = await supabaseAdmin
-        .from('users')
-        .select('*')
-        .eq('id', member.user_id)
-        .single()
+  if (!members) {
+    notFound()
+  }
 
-      return user as User
-    }),
-  )
+  const userIds = members.map((member) => member.user_id)
+
+  const { data: users } = await supabaseAdmin.from('users').select('*').in('id', userIds)
+
+  if (!users) {
+    notFound()
+  }
 
   return (
     <Card>
