@@ -11,6 +11,7 @@ import {
 } from 'react-hook-form'
 import { cn } from '@/utils/helpers'
 import { Label } from '#/ui/label'
+import { ExclamationCircle } from '#/icons'
 
 const Form = FormProvider
 
@@ -149,9 +150,10 @@ const FormMessage = React.forwardRef<
     <p
       ref={ref}
       id={formMessageId}
-      className={cn('text-sm font-medium text-destructive', className)}
+      className={cn('flex items-center text-sm font-medium text-destructive', className)}
       {...props}
     >
+      <ExclamationCircle className='mr-1 h-6 w-6' />
       {body}
     </p>
   )

@@ -23,6 +23,7 @@ import { useForm } from 'react-hook-form'
 import type * as z from 'zod'
 import { useRouter } from 'next/navigation'
 import type { Project } from '@/types/general.types'
+import type { Route } from 'next'
 
 type FormData = z.infer<typeof documentSchema>
 
@@ -54,7 +55,7 @@ export function DocSheet({ projectId }: { projectId: Project['id'] }) {
 
     setIsLoading(false)
 
-    push(`/editor/${docId}`)
+    push(`/editor/${docId}` as Route)
     refresh()
   }
 

@@ -21,6 +21,7 @@ import {
 } from '#/ui/dropdownMenu'
 import { useToast } from '@/hooks/useToast'
 import type { Document } from '@/types/general.types'
+import type { Route } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
@@ -93,7 +94,7 @@ export function DocOperations({ docId }: { docId: Document['id'] }) {
         <DropdownMenuContent align='end'>
           <DropdownMenuItem>
             <Link
-              href={`/editor/${docId}`}
+              href={`/editor/${docId}` as Route}
               className='flex w-full'
             >
               <Pen className='mr-2 h-4 w-4' />

@@ -117,7 +117,15 @@ export function TeamSlugForm({
 
 type NameFormData = z.infer<typeof teamSchema>
 
-export function TeamNameForm({ team }: { team: Team }) {
+export function TeamNameForm({
+  title,
+  description,
+  team,
+}: {
+  title: string
+  description: string
+  team: Team
+}) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   const {
@@ -150,15 +158,15 @@ export function TeamNameForm({ team }: { team: Team }) {
 
     setIsLoading(false)
 
-    toast({ description: 'Team name changed!' })
+    toast({ description: 'Name changed!' })
     refresh()
   }
 
   return (
     <FieldSet>
       <FieldSet.Header>
-        <FieldSet.Title>Your Team Name</FieldSet.Title>
-        <FieldSet.Description>This is your URL namespace within Verbalizy.</FieldSet.Description>
+        <FieldSet.Title>{title}</FieldSet.Title>
+        <FieldSet.Description>{description}</FieldSet.Description>
       </FieldSet.Header>
       <form
         onSubmit={handleSubmit(handleChangeTeamName)}
