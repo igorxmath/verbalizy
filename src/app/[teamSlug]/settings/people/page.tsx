@@ -3,8 +3,32 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/ui/
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/ui/tabs'
 import { EllipsisVertical } from '#/icons'
 import { Button } from '#/ui/button'
+import { supabaseServerComponent } from '@/lib/supabaseHandler'
+import { supabaseAdmin } from '@/lib/supabaseAdmin'
+import type { User } from '@/types/general.types'
 
-export default function Page() {
+export default async function Page({ params: { teamSlug } }: { params: { teamSlug: string } }) {
+  const supabase = supabaseServerComponent()
+
+  const { data: team } = await supabase.from('teams').select('id').eq('slug', teamSlug).single()
+
+  const { data: members } = await supabaseAdmin
+    .from('memberships')
+    .select('user_id')
+    .eq('team_id', team?.id)
+
+  const users = await Promise.all(
+    (members ?? []).map(async (member) => {
+      const { data: user } = await supabaseAdmin
+        .from('users')
+        .select('*')
+        .eq('id', member.user_id)
+        .single()
+
+      return user as User
+    }),
+  )
+
   return (
     <Card>
       <CardHeader>
@@ -27,22 +51,22 @@ export default function Page() {
           </TabsList>
           <TabsContent value='members'>
             <div className='space-y-4'>
-              {[...Array(2)].map((_, i) => (
+              {users.map((user) => (
                 <div
                   className='flex items-center justify-between px-2'
-                  key={i}
+                  key={user.id}
                 >
                   <div className='flex items-center space-x-2'>
                     <Avatar className='h-8 w-8'>
                       <AvatarImage
-                        src={`https://avatar.vercel.sh/igormatheus.png`}
-                        alt='igor'
+                        src={user.avatar_url || `https://avatar.vercel.sh/${teamSlug}.png`}
+                        alt={user.full_name as string}
                       />
                       <AvatarFallback>SC</AvatarFallback>
                     </Avatar>
                     <div>
-                      <p>Igor Matheus</p>
-                      <p className='text-sm text-muted-foreground'>pessoal@igormatheus.com.br</p>
+                      <p>{user.full_name}</p>
+                      <p className='text-sm text-muted-foreground'>{user.email}</p>
                     </div>
                   </div>
                   <EllipsisVertical className='h-6 w-6' />
