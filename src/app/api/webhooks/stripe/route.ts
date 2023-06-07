@@ -37,12 +37,14 @@ async function stripeWebhooks(request: NextRequest): Promise<NextResponse> {
   } else if (event.type === 'customer.subscription.updated') {
     const subscription = event.data.object as Stripe.Subscription
     const newPriceId = subscription.items.data[0].price.id
+    const stripeSubscriptionId = subscription.items.data[0].subscription
     const stripeCustomerId = subscription.customer.toString()
 
     const { error } = await supabaseAdmin
       .from('teams')
       .update({
         stripe_price_id: newPriceId,
+        stripe_subscription_id: stripeSubscriptionId,
         billing_cycle_start: new Date().toISOString(),
       })
       .eq('stripe_customer_id', stripeCustomerId)
@@ -59,6 +61,7 @@ async function stripeWebhooks(request: NextRequest): Promise<NextResponse> {
       .update({
         stripe_customer_id: null,
         stripe_price_id: null,
+        stripe_subscription_id: null,
         billing_cycle_start: null,
       })
       .eq('stripe_customer_id', stripeCustomerId)

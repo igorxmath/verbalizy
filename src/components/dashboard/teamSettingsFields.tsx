@@ -70,7 +70,7 @@ export function TeamSlugForm({
     const { teamSlug } = await res.json()
 
     toast({ description: 'Team slug changed!' })
-    push(`/${teamSlug}/settings`)
+    push(`/${teamSlug}/settings` as Route)
     refresh()
   }
 
@@ -210,7 +210,7 @@ export function ConfirmTeamDeletion({ team }: { team: Team }) {
     setIsLoading(false)
 
     toast({ description: 'Team deleted!' })
-    push('/dashboard')
+    push('/dashboard' as Route)
     refresh()
   }
 
@@ -340,7 +340,13 @@ export function NotificationSwitcher() {
   )
 }
 
-export function StripeCheckoutButton({ teamId, isPro }: { teamId: Team['id']; isPro: boolean }) {
+export function StripeCheckoutButton({
+  teamId,
+  isPremium,
+}: {
+  teamId: Team['id']
+  isPremium: boolean
+}) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   const { toast } = useToast()
@@ -370,9 +376,12 @@ export function StripeCheckoutButton({ teamId, isPro }: { teamId: Team['id']; is
   }
 
   return (
-    <Button onClick={handleCreateStripeCheckoutSession}>
+    <Button
+      disabled={isLoading}
+      onClick={handleCreateStripeCheckoutSession}
+    >
       {isLoading && <Spinner className='mr-2 h-4 w-4 animate-spin' />}
-      {isPro ? 'Manage' : 'Subscribe'}
+      {isPremium ? 'Manage Subscription' : 'Subscribe'}
     </Button>
   )
 }

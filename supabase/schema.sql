@@ -10,16 +10,17 @@ create table users (
 
 -- Teams
 create table public.teams (
-  id                  uuid primary key default uuid_generate_v4(),
-  inserted_at         timestamp with time zone default timezone('utc'::text, now()) not null,
-  slug                text not null unique,
-  name                text not null,
-  is_personal         boolean default false,
-  stripe_customer_id  text,
-  stripe_price_id     text,
-  is_enterprise_plan  boolean,
-  billing_cycle_start timestamp with time zone,
-  created_by          uuid references public.users not null
+  id                     uuid primary key default uuid_generate_v4(),
+  inserted_at            timestamp with time zone default timezone('utc'::text, now()) not null,
+  slug                   text not null unique,
+  name                   text not null,
+  is_personal            boolean default false,
+  stripe_customer_id     text,
+  stripe_subscription_id text,
+  stripe_price_id        text,
+  is_enterprise_plan     boolean,
+  billing_cycle_start    timestamp with time zone,
+  created_by             uuid references public.users not null
 );
 comment on table public.teams is 'Teams data.';
 

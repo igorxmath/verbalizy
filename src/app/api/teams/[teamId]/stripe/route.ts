@@ -38,11 +38,21 @@ async function createStripeCheckoutSession(
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
-    const { isPro, stripeCustomerId } = await getTeamSubscriptionPlan(teamId)
+    const { data: team, error: teamError } = await supabase
+      .from('teams')
+      .select('*')
+      .eq('id', teamId)
+      .single()
 
-    if (isPro && stripeCustomerId) {
+    if (teamError) {
+      return NextResponse.json({ error: teamError.message }, { status: 403 })
+    }
+
+    const { isPremium } = await getTeamSubscriptionPlan(team)
+
+    if (isPremium && team.stripe_customer_id) {
       const stripeSession = await stripe.billingPortal.sessions.create({
-        customer: stripeCustomerId,
+        customer: team.stripe_customer_id,
         return_url: redirect,
       })
 

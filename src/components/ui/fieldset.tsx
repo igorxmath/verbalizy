@@ -80,7 +80,9 @@ FieldSet.Skeleton = function FieldSetSeleton({ className }: FieldSetProps) {
         <Skeleton className='h-5 w-1/5' />
         <Skeleton className='h-4 w-4/5' />
       </FieldSet.Header>
-      <FieldSet.Content className='h-10' />
+      <FieldSet.Content className='h-10'>
+        <Skeleton className='h-5 w-1/5' />
+      </FieldSet.Content>
       <FieldSet.Footer>
         <Skeleton className='h-8 w-[120px] bg-primary' />
       </FieldSet.Footer>

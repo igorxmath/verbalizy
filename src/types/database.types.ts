@@ -130,6 +130,7 @@ export interface Database {
           name: string
           slug: string
           stripe_customer_id: string | null
+          stripe_subscription_id: string | null
           stripe_price_id: string | null
         }
         Insert: {
@@ -142,6 +143,7 @@ export interface Database {
           name: string
           slug: string
           stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
           stripe_price_id?: string | null
         }
         Update: {
@@ -154,6 +156,7 @@ export interface Database {
           name?: string
           slug?: string
           stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
           stripe_price_id?: string | null
         }
       }
