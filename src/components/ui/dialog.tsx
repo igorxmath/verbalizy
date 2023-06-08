@@ -1,7 +1,7 @@
 'use client'
 
 import { Clear } from '#/icons'
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import * as React from 'react'
 

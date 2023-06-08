@@ -1,4 +1,4 @@
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import * as React from 'react'
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>

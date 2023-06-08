@@ -1,17 +1,11 @@
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import { supabaseRoute } from '@/lib/supabaseHandler'
 import { isTeamSlugAvailable, slugify } from '@/utils/slugify'
-import { slugSchema, teamSchema } from '@/utils/validation'
+import { slugSchema, teamRouteContextSchema, teamSchema } from '@/utils/validation'
 import { type NextRequest, NextResponse } from 'next/server'
 import * as z from 'zod'
 
 export const revalidate = 0
-
-const teamRouteContextSchema = z.object({
-  params: z.object({
-    teamId: z.string(),
-  }),
-})
 
 async function editTeamName(
   request: NextRequest,

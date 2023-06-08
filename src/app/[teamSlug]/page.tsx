@@ -114,7 +114,7 @@ export default async function OverviewPage({
                             src={`https://avatar.vercel.sh/${project.slug}.png`}
                             alt={project.name}
                           />
-                          <AvatarFallback>SC</AvatarFallback>
+                          <AvatarFallback>{project.name[0]}</AvatarFallback>
                         </Avatar>
                         {project.name}
                       </div>

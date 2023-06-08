@@ -1,7 +1,7 @@
 'use client'
 
 import { Check, ChevronDown } from '#/icons'
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import * as React from 'react'
 

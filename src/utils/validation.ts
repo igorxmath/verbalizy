@@ -24,7 +24,17 @@ export const userSchema = z.object({
   subscribe_to_product_updates: z.boolean().optional(),
 })
 
+export const emailSchema = z.object({
+  email: z.string().email(),
+})
+
 // routes
+export const teamRouteContextSchema = z.object({
+  params: z.object({
+    teamId: z.string(),
+  }),
+})
+
 export const projectRouteContextSchema = z.object({
   params: z.object({
     projectId: z.string(),

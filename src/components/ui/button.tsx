@@ -1,4 +1,4 @@
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import { type VariantProps, cva } from 'class-variance-authority'
 import { Slot } from '@radix-ui/react-slot'
 import * as React from 'react'

@@ -33,7 +33,8 @@
     "webhooks": "public",
     "playground": "plugin",
     "stripe": "cart",
-    "users": "admin"
+    "users": "admin",
+    "invites": "mail"
   },
 
   "editor.linkedEditing": true,

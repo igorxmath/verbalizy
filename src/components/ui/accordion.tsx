@@ -1,7 +1,7 @@
 'use client'
 
 import { ChevronDown } from '#/icons'
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import * as React from 'react'
 

@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { format } from 'date-fns'
 import { Calendar as CalendarIcon, Spinner } from '#/icons'
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import { Button } from '#/ui/button'
 import { Calendar } from '#/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '#/ui/popover'

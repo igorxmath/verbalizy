@@ -1,5 +1,5 @@
 import { FieldSet } from '#/ui/fieldset'
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 
 export default function Loading() {
   return (

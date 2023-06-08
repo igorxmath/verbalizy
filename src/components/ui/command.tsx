@@ -2,7 +2,7 @@
 
 import { Search } from '#/icons'
 import { Dialog, DialogContent } from '#/ui/dialog'
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import type { DialogProps } from '@radix-ui/react-dialog'
 import { Command as CommandPrimitive } from 'cmdk'
 import * as React from 'react'

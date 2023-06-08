@@ -19,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '#/ui/dropdownMenu'
+import { Progress } from '#/ui/progress'
 import { useToast } from '@/hooks/useToast'
 import type { Document } from '@/types/general.types'
 import type { Route } from 'next'
@@ -30,6 +31,7 @@ export function DocOperations({ docId }: { docId: Document['id'] }) {
   const [showEmbeddingDialog, setShowEmbeddingDialog] = React.useState<boolean>(false)
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [progress, setProgress] = React.useState<number>(13)
 
   const { refresh } = useRouter()
   const { toast } = useToast()
@@ -37,15 +39,24 @@ export function DocOperations({ docId }: { docId: Document['id'] }) {
   const handleGenerateEmbeddings = async () => {
     setIsLoading(true)
 
-    const response = await fetch(`/api/documents/${docId}/chat`, { method: 'POST' })
+    const response = await fetch(`/api/streaming`)
 
-    if (!response.ok) {
-      setIsLoading(false)
-      setShowEmbeddingDialog(false)
-      return toast({
-        description: 'Something went wrong. Please try again.',
-        variant: 'destructive',
-      })
+    const data = response.body
+    if (!data) return
+
+    const reader = data.getReader()
+    const decoder = new TextDecoder()
+    let done = false
+
+    while (!done) {
+      const { value, done: doneReading } = await reader.read()
+      done = doneReading
+      const chunkValue = decoder.decode(value)
+      const parsedValue = parseInt(chunkValue)
+
+      if (!isNaN(parsedValue)) {
+        setProgress(parsedValue)
+      }
     }
 
     setIsLoading(false)
@@ -154,6 +165,10 @@ export function DocOperations({ docId }: { docId: Document['id'] }) {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>generate embeddings</AlertDialogDescription>
+            <Progress
+              value={progress}
+              className='w-[60%]'
+            />
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>

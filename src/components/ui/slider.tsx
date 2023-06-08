@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import * as SliderPrimitive from '@radix-ui/react-slider'
 import * as React from 'react'
 

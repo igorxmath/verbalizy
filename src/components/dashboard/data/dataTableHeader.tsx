@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '#/ui/dropdownMenu'
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import type { Column } from '@tanstack/react-table'
 
 interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {

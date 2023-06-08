@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '#/ui/button'
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 

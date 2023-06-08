@@ -1,7 +1,7 @@
 'use client'
 
 import { Check, ChevronRight, Circle } from '#/icons'
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import * as React from 'react'
 

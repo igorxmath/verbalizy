@@ -1,5 +1,5 @@
 import { CodeBlock } from '@/components/markdown/codeBlock'
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import ReactMarkdown from 'react-markdown'
 
 export default function MarkdownPreview({

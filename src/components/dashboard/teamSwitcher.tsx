@@ -24,7 +24,7 @@ import {
 import { Input } from '#/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '#/ui/popover'
 import { Form, FormField, FormItem, FormControl, FormMessage, FormLabel } from '#/ui/form'
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import { teamSchema } from '@/utils/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
@@ -100,7 +100,7 @@ export function TeamSwitcher({ groups, selected }: { groups: Groups[]; selected:
                 src={`https://avatar.vercel.sh/${selectedTeam.slug}.png`}
                 alt={selectedTeam.name}
               />
-              <AvatarFallback>SC</AvatarFallback>
+              <AvatarFallback>{selectedTeam.name[0]}</AvatarFallback>
             </Avatar>
             {selectedTeam.name}
             <ChevronsUpDown className='ml-auto h-4 w-4 shrink-0 opacity-50' />
@@ -134,7 +134,7 @@ export function TeamSwitcher({ groups, selected }: { groups: Groups[]; selected:
                             src={`https://avatar.vercel.sh/${team.slug}.png`}
                             alt={team.name}
                           />
-                          <AvatarFallback>SC</AvatarFallback>
+                          <AvatarFallback>{team.name[0]}</AvatarFallback>
                         </Avatar>
                         {team.name}
                         <Check

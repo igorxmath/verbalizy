@@ -11,7 +11,8 @@ import {
   DropdownMenuTrigger,
 } from '#/ui/dropdownMenu'
 import { handleSignOut } from '@/actions/auth'
-import { cn, projectSegments, teamSegments } from '@/utils/helpers'
+import { projectSegments, teamSegments } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import Link from 'next/link'
 import { useParams, useSelectedLayoutSegments } from 'next/navigation'
 import * as React from 'react'

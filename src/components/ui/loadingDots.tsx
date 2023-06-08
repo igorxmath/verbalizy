@@ -1,5 +1,5 @@
 import style from '@/styles/loadingDots.module.css'
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import * as React from 'react'
 
 const LoadingDots = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(

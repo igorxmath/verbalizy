@@ -1,4 +1,4 @@
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import * as React from 'react'
 
 const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(

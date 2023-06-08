@@ -7,21 +7,21 @@ export interface Database {
         Row: {
           content: string | null
           document_id: number
-          embedding: number[] | null
+          embedding: string | null
           id: number
           metadata: Json | null
         }
         Insert: {
           content?: string | null
           document_id: number
-          embedding?: number[] | null
+          embedding?: string | null
           id?: number
           metadata?: Json | null
         }
         Update: {
           content?: string | null
           document_id?: number
-          embedding?: number[] | null
+          embedding?: string | null
           id?: number
           metadata?: Json | null
         }
@@ -53,6 +53,32 @@ export interface Database {
           project_id?: string
           status?: Database['public']['Enums']['status_type']
           updated_at?: string
+        }
+      }
+      invites: {
+        Row: {
+          email: string
+          expires: string
+          id: number
+          team_id: string
+          token: string
+          user_id: string
+        }
+        Insert: {
+          email: string
+          expires: string
+          id?: number
+          team_id: string
+          token: string
+          user_id: string
+        }
+        Update: {
+          email?: string
+          expires?: string
+          id?: number
+          team_id?: string
+          token?: string
+          user_id?: string
         }
       }
       memberships: {
@@ -130,8 +156,8 @@ export interface Database {
           name: string
           slug: string
           stripe_customer_id: string | null
-          stripe_subscription_id: string | null
           stripe_price_id: string | null
+          stripe_subscription_id: string | null
         }
         Insert: {
           billing_cycle_start?: string | null
@@ -143,8 +169,8 @@ export interface Database {
           name: string
           slug: string
           stripe_customer_id?: string | null
-          stripe_subscription_id?: string | null
           stripe_price_id?: string | null
+          stripe_subscription_id?: string | null
         }
         Update: {
           billing_cycle_start?: string | null
@@ -156,8 +182,8 @@ export interface Database {
           name?: string
           slug?: string
           stripe_customer_id?: string | null
-          stripe_subscription_id?: string | null
           stripe_price_id?: string | null
+          stripe_subscription_id?: string | null
         }
       }
       users: {
@@ -211,7 +237,7 @@ export interface Database {
       }
       match_documents: {
         Args: {
-          query_embedding: number[]
+          query_embedding: string
           match_count: number
           filter?: Json
         }

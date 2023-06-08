@@ -11,7 +11,8 @@ import {
   CommandList,
   CommandSeparator,
 } from '#/ui/command'
-import { cn, teamSegments } from '@/utils/helpers'
+import { teamSegments } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import type { DialogProps } from '@radix-ui/react-alert-dialog'
 import { useTheme } from 'next-themes'
 import { useParams, useRouter } from 'next/navigation'

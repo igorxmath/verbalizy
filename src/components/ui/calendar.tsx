@@ -2,7 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from '#/icons'
 import { buttonVariants } from '#/ui/button'
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import * as React from 'react'
 import { DayPicker } from 'react-day-picker'
 

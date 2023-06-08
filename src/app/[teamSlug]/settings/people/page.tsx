@@ -1,11 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from '#/ui/avatar'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/ui/tabs'
-import { EllipsisVertical } from '#/icons'
-import { Button } from '#/ui/button'
+import { EllipsisVertical, Trash } from '#/icons'
 import { supabaseServerComponent } from '@/lib/supabaseHandler'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import { notFound } from 'next/navigation'
+import NewInviteDialog from '@/components/dashboard/inviteDialog'
 
 export default async function Page({ params: { teamSlug } }: { params: { teamSlug: string } }) {
   const supabase = supabaseServerComponent()
@@ -33,13 +33,15 @@ export default async function Page({ params: { teamSlug } }: { params: { teamSlu
     notFound()
   }
 
+  const { data: invites } = await supabaseAdmin.from('invites').select('*').eq('team_id', team.id)
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>
           <div className='flex items-center justify-between'>
             <p>People</p>
-            <Button size={'sm'}>Invite</Button>
+            <NewInviteDialog teamId={team.id} />
           </div>
         </CardTitle>
         <CardDescription>Teammates or friends that have access to this project.</CardDescription>
@@ -66,7 +68,7 @@ export default async function Page({ params: { teamSlug } }: { params: { teamSlu
                         src={user.avatar_url || `https://avatar.vercel.sh/${teamSlug}.png`}
                         alt={user.full_name as string}
                       />
-                      <AvatarFallback>SC</AvatarFallback>
+                      <AvatarFallback>{user.full_name ? user.full_name[0] : 'V'}</AvatarFallback>
                     </Avatar>
                     <div>
                       <p>{user.full_name}</p>
@@ -78,7 +80,23 @@ export default async function Page({ params: { teamSlug } }: { params: { teamSlu
               ))}
             </div>
           </TabsContent>
-          <TabsContent value='invitations'>OI</TabsContent>
+          <TabsContent value='invitations'>
+            <div className='space-y-4 px-2'>
+              {invites?.length ? (
+                invites.map((invitedUser) => (
+                  <div
+                    className='flex items-center justify-between'
+                    key={invitedUser.id}
+                  >
+                    <p>{invitedUser.email}</p>
+                    <Trash className='h-6 w-6 text-destructive' />
+                  </div>
+                ))
+              ) : (
+                <p>No invitations sent</p>
+              )}
+            </div>
+          </TabsContent>
         </Tabs>
       </CardContent>
     </Card>

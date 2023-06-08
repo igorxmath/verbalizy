@@ -9,7 +9,7 @@ import {
   FormProvider,
   useFormContext,
 } from 'react-hook-form'
-import { cn } from '@/utils/helpers'
+import { cn } from '@/utils/merge'
 import { Label } from '#/ui/label'
 import { ExclamationCircle } from '#/icons'
 
