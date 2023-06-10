@@ -6,6 +6,7 @@ import { supabaseClient } from '@/lib/supabaseClient'
 import { useToast } from '@/hooks/useToast'
 import Link from 'next/link'
 import * as React from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 export default function LoginPage() {
   return (
@@ -31,19 +32,26 @@ export default function LoginPage() {
   )
 }
 
+type Providers = 'google' | 'github'
+
 function UserAuthForm() {
-  const [isLoading, setIsLoading] = React.useState<'google' | 'github' | null>(null)
+  const [isLoading, setIsLoading] = React.useState<Providers | null>(null)
 
   const { toast } = useToast()
+  const { refresh } = useRouter()
+
+  const searchParams = useSearchParams()
+  const next = searchParams.get('next')
 
   const supabase = supabaseClient()
 
-  const handleLogin = async (provider: 'google' | 'github') => {
+  const handleLogin = async (provider: Providers) => {
     setIsLoading(provider)
+    const redirectTo = `${location.origin}/auth/callback${next && '?next=' + next}`
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${location.origin}/auth/callback`,
+        redirectTo,
       },
     })
     if (error) {
@@ -53,6 +61,7 @@ function UserAuthForm() {
         variant: 'destructive',
       })
     }
+    refresh()
   }
 
   return (

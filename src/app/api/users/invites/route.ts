@@ -1,13 +1,11 @@
-import { NextResponse } from 'next/server'
-import { type NextRequest } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import { hashToken } from '@/utils/hash'
+import { supabaseRoute } from '@/lib/supabaseHandler'
+import { getURL } from '@/utils/helpers'
 
 async function validateInvite(request: NextRequest): Promise<NextResponse> {
-  const { searchParams } = new URL(request.url)
-  const teamId = searchParams.get('teamId')
-  const email = searchParams.get('email')
-  const token = searchParams.get('token')
+  const { teamId, email, token } = await request.json()
 
   if (!teamId || !email || !token) {
     return NextResponse.json({ error: 'Missing parameters' }, { status: 400 })
@@ -50,7 +48,17 @@ async function validateInvite(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: deleteError.message }, { status: 500 })
   }
 
+  const supabase = supabaseRoute()
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if (!session) {
+    return NextResponse.redirect(`${getURL()}/auth?next=/invite?${teamId}`)
+  }
+
   return NextResponse.json({ status: 'ok' })
 }
 
-export { validateInvite as GET }
+export { validateInvite as POST }

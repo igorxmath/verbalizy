@@ -87,7 +87,7 @@ async function sendInvite(
       token,
     })
 
-    const url = `${getURL()}api/users/invites?${params}`
+    const url = `${getURL()}invites?${params}`
 
     const resend = new Resend(env.RESEND_SECRET)
 
@@ -97,8 +97,6 @@ async function sendInvite(
       subject: 'Hello World',
       html: `Link: <p>${url}</p> <a href="${url}" target="_blank"><button>Click</button></a>`,
     })
-
-    console.log(url)
 
     return NextResponse.json({ status: 'ok', url })
   } catch (error) {
