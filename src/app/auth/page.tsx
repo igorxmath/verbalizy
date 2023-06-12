@@ -6,7 +6,7 @@ import { supabaseClient } from '@/lib/supabaseClient'
 import { useToast } from '@/hooks/useToast'
 import Link from 'next/link'
 import * as React from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 
 export default function LoginPage() {
   return (
@@ -38,7 +38,6 @@ function UserAuthForm() {
   const [isLoading, setIsLoading] = React.useState<Providers | null>(null)
 
   const { toast } = useToast()
-  const { refresh } = useRouter()
 
   const searchParams = useSearchParams()
   const next = searchParams.get('next')
@@ -47,7 +46,7 @@ function UserAuthForm() {
 
   const handleLogin = async (provider: Providers) => {
     setIsLoading(provider)
-    const redirectTo = `${location.origin}/auth/callback${next && '?next=' + next}`
+    const redirectTo = `${location.origin}/auth/callback${next ? '?next=' + next : ''}`
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
@@ -61,7 +60,6 @@ function UserAuthForm() {
         variant: 'destructive',
       })
     }
-    refresh()
   }
 
   return (
