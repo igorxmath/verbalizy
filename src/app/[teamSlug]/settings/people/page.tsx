@@ -1,11 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from '#/ui/avatar'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/ui/tabs'
-import { EllipsisVertical, Trash } from '#/icons'
 import { supabaseServerComponent } from '@/lib/supabaseHandler'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import { notFound } from 'next/navigation'
 import NewInviteDialog from '@/components/dashboard/inviteDialog'
+import { DeleteInviteAlert } from '@/components/dashboard/deleteInviteAlert'
+import { MemberOperator } from '@/components/dashboard/memberOperator'
 
 export default async function Page({ params: { teamSlug } }: { params: { teamSlug: string } }) {
   const supabase = supabaseServerComponent()
@@ -16,7 +17,7 @@ export default async function Page({ params: { teamSlug } }: { params: { teamSlu
     notFound()
   }
 
-  const { data: members } = await supabaseAdmin
+  const { data: members } = await supabase
     .from('memberships')
     .select('user_id')
     .eq('team_id', team.id)
@@ -75,7 +76,10 @@ export default async function Page({ params: { teamSlug } }: { params: { teamSlu
                       <p className='text-sm text-muted-foreground'>{user.email}</p>
                     </div>
                   </div>
-                  <EllipsisVertical className='h-6 w-6' />
+                  <MemberOperator
+                    teamId={team.id}
+                    userId={user.id}
+                  />
                 </div>
               ))}
             </div>
@@ -89,7 +93,7 @@ export default async function Page({ params: { teamSlug } }: { params: { teamSlu
                     key={invitedUser.id}
                   >
                     <p>{invitedUser.email}</p>
-                    <Trash className='h-6 w-6 text-destructive' />
+                    <DeleteInviteAlert inviteId={invitedUser.id} />
                   </div>
                 ))
               ) : (

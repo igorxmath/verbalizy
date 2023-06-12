@@ -1,15 +1,9 @@
 import { supabaseRoute } from '@/lib/supabaseHandler'
-import { projectSchema } from '@/utils/validation'
+import { projectRouteContextSchema, projectSchema } from '@/utils/validation'
 import { type NextRequest, NextResponse } from 'next/server'
 import * as z from 'zod'
 
 export const revalidate = 0
-
-const projectRouteContextSchema = z.object({
-  params: z.object({
-    projectId: z.string(),
-  }),
-})
 
 async function editProjectName(
   request: NextRequest,

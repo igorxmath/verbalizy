@@ -28,6 +28,10 @@ export const emailSchema = z.object({
   email: z.string().email(),
 })
 
+export const userIdSchema = z.object({
+  userId: z.string().uuid(),
+})
+
 // routes
 export const teamRouteContextSchema = z.object({
   params: z.object({
@@ -44,5 +48,11 @@ export const projectRouteContextSchema = z.object({
 export const documentRouteContextSchema = z.object({
   params: z.object({
     docId: z.string().transform((value) => parseInt(value)),
+  }),
+})
+
+export const inviteRouteContextSchema = z.object({
+  params: z.object({
+    inviteId: z.string().transform((value) => parseInt(value)),
   }),
 })

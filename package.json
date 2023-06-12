@@ -11,7 +11,7 @@
     "update-types": "npx supabase gen types typescript --project-id nacllxbwrrojjrlhrcke > src/types/database.types.ts"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.1.0",
+    "@hookform/resolvers": "^3.1.1",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.4",
     "@radix-ui/react-avatar": "^1.0.3",
@@ -69,8 +69,8 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9",
     "@types/react-syntax-highlighter": "^15.5.7",
-    "@typescript-eslint/eslint-plugin": "^5.59.9",
-    "@typescript-eslint/parser": "^5.59.9",
+    "@typescript-eslint/eslint-plugin": "^5.59.10",
+    "@typescript-eslint/parser": "^5.59.10",
     "autoprefixer": "^10.4.14",
     "eslint-config-next": "^13.4.5",
     "eslint-config-prettier": "^8.8.0",

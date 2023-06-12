@@ -69,7 +69,7 @@ async function sendInvite(
     const TWO_WEEKS_IN_SECONDS = 60 * 60 * 24 * 14
     const expires = new Date(Date.now() + TWO_WEEKS_IN_SECONDS * 1000).toISOString()
 
-    const { error: inviteError } = await supabaseAdmin.from('invites').insert({
+    const { error: inviteError } = await supabase.from('invites').insert({
       email,
       token: hashToken(token),
       expires,

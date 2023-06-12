@@ -286,18 +286,60 @@ create policy "Users can delete documents associated to projects they have acces
     )
   );
 
+-- Invites
+
+alter table invites
+  enable row level security;
+
+-- Users can only see invites associated with teams they are members of
+create policy "users can only see invites associated with their teams" on public.invites
+  for select
+  using (
+    exists (
+      select 1 from memberships
+      where memberships.user_id = auth.uid()
+      and memberships.team_id = invites.team_id
+    )
+  );
+
+-- Users can insert invites for teams they are members of
+create policy "users can insert invites for their teams" on public.invites
+  for insert with check (
+    exists (
+      select 1 from memberships
+      where memberships.user_id = auth.uid()
+      and memberships.team_id = invites.team_id
+    )
+  );
+
+-- Users can update invites for teams they are members of
+create policy "users can update invites for their teams" on public.invites
+  for update
+  using (
+    exists (
+      select 1 from memberships
+      where memberships.user_id = auth.uid()
+      and memberships.team_id = invites.team_id
+    )
+  );
+
+-- Users can delete invites for teams they are members of
+create policy "users can delete invites for their teams" on public.invites
+  for delete
+  using (
+    exists (
+      select 1 from memberships
+      where memberships.user_id = auth.uid()
+      and memberships.team_id = invites.team_id
+    )
+  );
 
 -- Document sections
 
 alter table document_sections
   enable row level security;
 
--- Invites sections
-
-alter table invites
-  enable row level security;
-
--- No policies for document_sections and invites: they are inaccessible to the client,
+-- No policies for document_sections: they are inaccessible to the client,
 -- and only edited on the server with service_role access.
 
 -- Indexes
