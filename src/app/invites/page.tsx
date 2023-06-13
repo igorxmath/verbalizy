@@ -18,6 +18,7 @@ export default async function Page({
     .from('teams')
     .select('slug, name')
     .eq('id', teamId)
+    .neq('is_personal', false)
     .limit(1)
     .maybeSingle()
 

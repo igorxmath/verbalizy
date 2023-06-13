@@ -31,8 +31,8 @@ import { useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@/hooks/useToast'
-import type * as z from 'zod'
 import type { Route } from 'next'
+import type * as z from 'zod'
 
 type FormData = z.infer<typeof teamSchema>
 
@@ -125,7 +125,7 @@ export function TeamSwitcher({ groups, selected }: { groups: Groups[]; selected:
                         onSelect={() => {
                           setSelectedTeam(team)
                           setOpen(false)
-                          push(team.slug as Route)
+                          push(`/${team.slug}` as Route)
                         }}
                         className='text-sm'
                       >

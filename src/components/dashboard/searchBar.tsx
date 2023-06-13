@@ -7,10 +7,11 @@ import type { Route } from 'next'
 import * as React from 'react'
 
 export default function SearchBar() {
+  const [isPeding, startTransition] = React.useTransition()
+
   const pathname = usePathname()
   const searchParam = useSearchParams()
   const { replace } = useRouter()
-  const [isPeding, startTransition] = React.useTransition()
 
   const handleSearch = (term: string) => {
     const params = new URLSearchParams(window.location.search)

@@ -2,6 +2,7 @@
 
 import { Button } from '#/ui/button'
 import { cn } from '@/utils/merge'
+import type { Route } from 'next'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 
@@ -21,7 +22,7 @@ export default function AsideNav({ segments, path }: AsideNavProps) {
 
           return (
             <Link
-              href={`/${path}/settings/${slug}`}
+              href={`/${path}/settings/${slug}` as Route}
               className='sm:w-full'
               key={index}
             >
