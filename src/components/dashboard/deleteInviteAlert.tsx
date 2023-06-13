@@ -55,7 +55,7 @@ export function DeleteInviteAlert({ inviteId }: { inviteId: Invite['id'] }) {
           disabled={isLoading}
           className='h-8 px-2'
         >
-          <Trash className='h-4 w-4 text-destructive' />
+          <Trash className='h-4 w-4' />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
