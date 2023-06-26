@@ -1,6 +1,6 @@
 'use client'
 
-import { Spinner, Trash, EllipsisVertical, Pen, Brain } from '#/icons'
+import { Spinner, Trash, EllipsisVertical, Pen } from '#/icons'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,7 +19,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '#/ui/dropdownMenu'
-import { Progress } from '#/ui/progress'
 import { useToast } from '@/hooks/useToast'
 import type { Document } from '@/types/general.types'
 import type { Route } from 'next'
@@ -28,44 +27,11 @@ import { useRouter } from 'next/navigation'
 import * as React from 'react'
 
 export function DocOperations({ docId }: { docId: Document['id'] }) {
-  const [showEmbeddingDialog, setShowEmbeddingDialog] = React.useState<boolean>(false)
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
-  const [progress, setProgress] = React.useState<number>(13)
 
   const { refresh } = useRouter()
   const { toast } = useToast()
-
-  const handleGenerateEmbeddings = async () => {
-    setIsLoading(true)
-
-    const response = await fetch(`/api/streaming`)
-
-    const data = response.body
-    if (!data) return
-
-    const reader = data.getReader()
-    const decoder = new TextDecoder()
-    let done = false
-
-    while (!done) {
-      const { value, done: doneReading } = await reader.read()
-      done = doneReading
-      const chunkValue = decoder.decode(value)
-      const parsedValue = parseInt(chunkValue)
-
-      if (!isNaN(parsedValue)) {
-        setProgress(parsedValue)
-      }
-    }
-
-    setIsLoading(false)
-    setShowEmbeddingDialog(false)
-    toast({
-      title: 'Success',
-      description: 'Your embedding was created',
-    })
-  }
 
   const handleDeleteDoc = async () => {
     setIsLoading(true)
@@ -112,13 +78,6 @@ export function DocOperations({ docId }: { docId: Document['id'] }) {
               Edit
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem
-            className='flex w-full'
-            onSelect={() => setShowEmbeddingDialog(true)}
-          >
-            <Brain className='mr-2 h-4 w-4' />
-            Train
-          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className='flex cursor-pointer items-center text-destructive focus:text-destructive'
@@ -153,34 +112,6 @@ export function DocOperations({ docId }: { docId: Document['id'] }) {
                 <Trash className='mr-2 h-4 w-4' />
               )}
               <span>Delete</span>
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-      <AlertDialog
-        open={showEmbeddingDialog}
-        onOpenChange={setShowEmbeddingDialog}
-      >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>generate embeddings</AlertDialogDescription>
-            <Progress
-              value={progress}
-              className='w-[60%]'
-            />
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              disabled={isLoading}
-              onClick={(e) => {
-                e.preventDefault()
-                handleGenerateEmbeddings()
-              }}
-            >
-              {isLoading && <Spinner className='mr-2 h-4 w-4 animate-spin' />}
-              Continue
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

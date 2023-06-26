@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     template: '%s | Verbalizy',
   },
   description: 'A simple way to train your GPT-3 model',
+  metadataBase: new URL('https://verbalizy.vercel.app/'),
   twitter: {
     title: 'Verbalizy',
     card: 'summary_large_image',

@@ -19,18 +19,36 @@ export const teamSegments = [
   },
 ]
 
+export const teamSettingsSegments = [
+  {
+    slug: '',
+    name: 'General',
+  },
+  {
+    slug: 'billing',
+    name: 'Billing',
+  },
+  {
+    slug: 'people',
+    name: 'People',
+  },
+]
+
 export const projectSegments = [
   {
     slug: '',
     name: 'Project',
   },
   {
-    slug: 'playground',
-    name: 'Playground',
-  },
-  {
     slug: 'settings',
     name: 'Settings',
+  },
+]
+
+export const projectSettingsSegments = [
+  {
+    slug: '',
+    name: 'General',
   },
 ]
 

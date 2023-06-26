@@ -1,6 +1,5 @@
 import AsideNav from '#/dashboard/asideNav'
-import { supabaseServerComponent } from '@/lib/supabaseHandler'
-import { notFound } from 'next/navigation'
+import { teamSettingsSegments } from '@/utils/helpers'
 import React from 'react'
 
 export default async function TeamSettingsLayout({
@@ -10,40 +9,6 @@ export default async function TeamSettingsLayout({
   params: { teamSlug: string }
   children: React.ReactNode
 }) {
-  const supabase = supabaseServerComponent()
-
-  const { data: team } = await supabase
-    .from('teams')
-    .select('is_personal')
-    .eq('slug', teamSlug)
-    .single()
-
-  if (!team) {
-    notFound()
-  }
-
-  const teamSettingsSegments = team.is_personal
-    ? [
-        {
-          slug: '',
-          name: 'General',
-        },
-      ]
-    : [
-        {
-          slug: '',
-          name: 'General',
-        },
-        {
-          slug: 'billing',
-          name: 'Billing',
-        },
-        {
-          slug: 'people',
-          name: 'People',
-        },
-      ]
-
   return (
     <div className='flex w-full flex-col'>
       <div className='border-b'>

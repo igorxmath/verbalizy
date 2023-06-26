@@ -1,16 +1,6 @@
 import AsideNav from '#/dashboard/asideNav'
 import React from 'react'
-
-const projectSettingsSegments = [
-  {
-    slug: '',
-    name: 'General',
-  },
-  {
-    slug: 'chat',
-    name: 'Chat',
-  },
-]
+import { projectSettingsSegments } from '@/utils/helpers'
 
 export default function ProjectSettingsLayout({
   params: { teamSlug, projectSlug },
