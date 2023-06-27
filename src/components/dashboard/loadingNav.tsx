@@ -1,5 +1,5 @@
-import { Skeleton } from '#/ui/skeleton'
 import { Divider } from '#/icons'
+import { Skeleton } from '#/ui/skeleton'
 
 export default function LoadingNav() {
   return (

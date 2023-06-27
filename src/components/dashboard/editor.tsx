@@ -2,8 +2,8 @@
 
 import { Check, ChevronLeft, Markdown, Spinner } from '#/icons'
 import { Button } from '#/ui/button'
-import { Toggle } from '#/ui/toggle'
 import { Textarea } from '#/ui/textarea'
+import { Toggle } from '#/ui/toggle'
 import { useToast } from '@/hooks/useToast'
 import type { Document } from '@/types/general.types'
 import { useRouter } from 'next/navigation'

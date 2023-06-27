@@ -1,6 +1,6 @@
 import { supabaseRoute } from '@/lib/supabaseHandler'
 import { inviteRouteContextSchema } from '@/utils/validation'
-import { type NextRequest, NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import * as z from 'zod'
 
 export const revalidate = 0

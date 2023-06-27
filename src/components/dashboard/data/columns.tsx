@@ -1,13 +1,13 @@
 'use client'
 
-import { Badge } from '#/ui/badge'
-import { DocOperations } from './docOperator'
 import { DataTableColumnHeader } from '#/dashboard/data/dataTableHeader'
+import { Badge } from '#/ui/badge'
 import type { Document, DocumentStatus } from '@/types/general.types'
 import { timeSince } from '@/utils/helpers'
 import { cn } from '@/utils/merge'
 import type { ColumnDef } from '@tanstack/react-table'
 import Link from 'next/link'
+import { DocOperations } from './docOperator'
 
 export const statuses: { value: DocumentStatus; label: string; color: string }[] = [
   {

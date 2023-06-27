@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     default: 'Verbalizy',
     template: '%s | Verbalizy',
   },
-  description: 'A simple way to train your GPT-3 model',
+  description: 'A simple way to create documents',
   metadataBase: new URL('https://verbalizy.vercel.app/'),
   twitter: {
     title: 'Verbalizy',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Verbalizy',
     siteName: 'Verbalizy',
-    description: 'A simple way to train your GPT-3 model',
+    description: 'A simple way to create documents',
     url: 'https://verbalizy.vercel.app/',
     type: 'website',
     locale: 'pt-BR',

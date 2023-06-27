@@ -25,6 +25,14 @@ export interface Database {
           id?: number
           metadata?: Json | null
         }
+        Relationships: [
+          {
+            foreignKeyName: 'document_sections_document_id_fkey'
+            columns: ['document_id']
+            referencedRelation: 'documents'
+            referencedColumns: ['id']
+          },
+        ]
       }
       documents: {
         Row: {
@@ -54,6 +62,14 @@ export interface Database {
           status?: Database['public']['Enums']['status_type']
           updated_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: 'documents_project_id_fkey'
+            columns: ['project_id']
+            referencedRelation: 'projects'
+            referencedColumns: ['id']
+          },
+        ]
       }
       invites: {
         Row: {
@@ -80,6 +96,20 @@ export interface Database {
           token?: string
           user_id?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: 'invites_team_id_fkey'
+            columns: ['team_id']
+            referencedRelation: 'teams'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'invites_user_id_fkey'
+            columns: ['user_id']
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
       }
       memberships: {
         Row: {
@@ -103,47 +133,63 @@ export interface Database {
           type?: Database['public']['Enums']['membership_type']
           user_id?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: 'memberships_team_id_fkey'
+            columns: ['team_id']
+            referencedRelation: 'teams'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'memberships_user_id_fkey'
+            columns: ['user_id']
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
       }
       projects: {
         Row: {
-          bot_bio: string | null
-          bot_name: string | null
           created_by: string
           id: string
           inserted_at: string
-          max_tokens: number
           name: string
           slug: string
           team_id: string
-          temperature: number
           updated_at: string
         }
         Insert: {
-          bot_bio?: string | null
-          bot_name?: string | null
           created_by: string
           id?: string
           inserted_at?: string
-          max_tokens?: number
           name: string
           slug: string
           team_id: string
-          temperature?: number
           updated_at: string
         }
         Update: {
-          bot_bio?: string | null
-          bot_name?: string | null
           created_by?: string
           id?: string
           inserted_at?: string
-          max_tokens?: number
           name?: string
           slug?: string
           team_id?: string
-          temperature?: number
           updated_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: 'projects_created_by_fkey'
+            columns: ['created_by']
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'projects_team_id_fkey'
+            columns: ['team_id']
+            referencedRelation: 'teams'
+            referencedColumns: ['id']
+          },
+        ]
       }
       teams: {
         Row: {
@@ -185,6 +231,14 @@ export interface Database {
           stripe_price_id?: string | null
           stripe_subscription_id?: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: 'teams_created_by_fkey'
+            columns: ['created_by']
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
       }
       users: {
         Row: {
@@ -211,6 +265,14 @@ export interface Database {
           id?: string
           updated_at?: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: 'users_id_fkey'
+            columns: ['id']
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
       }
     }
     Views: {

@@ -2,8 +2,8 @@
 
 import { Search, Spinner } from '#/icons'
 import { Input } from '#/ui/input'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import type { Route } from 'next'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import * as React from 'react'
 
 export default function SearchBar() {

@@ -1,7 +1,7 @@
 import { supabaseRoute } from '@/lib/supabaseHandler'
 import { getAvailableProjectSlug, slugify } from '@/utils/slugify'
 import { projectSchema, teamRouteContextSchema } from '@/utils/validation'
-import { type NextRequest, NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import * as z from 'zod'
 
 export const revalidate = 0

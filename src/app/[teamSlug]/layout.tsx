@@ -1,9 +1,9 @@
-import { Toaster } from '#/ui/toaster'
 import Footer from '#/dashboard/footer'
 import Header from '#/dashboard/header'
 import LoadingNav from '#/dashboard/loadingNav'
-import { Suspense } from 'react'
+import { Toaster } from '#/ui/toaster'
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: 'Dashboard',

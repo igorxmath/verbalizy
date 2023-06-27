@@ -1,5 +1,6 @@
 'use client'
 
+import { Spinner, Trash } from '#/icons'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,12 +12,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '#/ui/alertDialog'
-import * as React from 'react'
 import { Button } from '#/ui/button'
-import { Spinner, Trash } from '#/icons'
 import { useToast } from '@/hooks/useToast'
-import { useRouter } from 'next/navigation'
 import type { Invite } from '@/types/general.types'
+import { useRouter } from 'next/navigation'
+import * as React from 'react'
 
 export function DeleteInviteAlert({ inviteId }: { inviteId: Invite['id'] }) {
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)

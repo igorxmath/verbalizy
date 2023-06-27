@@ -1,7 +1,6 @@
 'use client'
 
-import { Plus } from '#/icons'
-import { Spinner } from '#/icons'
+import { Plus, Spinner } from '#/icons'
 import { Button } from '#/ui/button'
 import {
   Dialog,
@@ -12,16 +11,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '#/ui/dialog'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '#/ui/form'
 import { Input } from '#/ui/input'
-import { Form, FormField, FormItem, FormControl, FormMessage, FormLabel } from '#/ui/form'
+import { useToast } from '@/hooks/useToast'
+import type { Team } from '@/types/general.types'
 import { projectSchema } from '@/utils/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
-import { useToast } from '@/hooks/useToast'
 import type * as z from 'zod'
-import type { Team } from '@/types/general.types'
 
 type FormData = z.infer<typeof projectSchema>
 

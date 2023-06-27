@@ -1,15 +1,15 @@
 'use client'
 
-import * as React from 'react'
-import { format } from 'date-fns'
 import { Calendar as CalendarIcon, Spinner } from '#/icons'
-import { cn } from '@/utils/merge'
 import { Button } from '#/ui/button'
 import { Calendar } from '#/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '#/ui/popover'
-import { type DayClickEventHandler } from 'react-day-picker'
-import { usePathname, useRouter } from 'next/navigation'
+import { cn } from '@/utils/merge'
+import { format } from 'date-fns'
 import type { Route } from 'next'
+import { usePathname, useRouter } from 'next/navigation'
+import * as React from 'react'
+import { type DayClickEventHandler } from 'react-day-picker'
 
 export function DatePicker() {
   const [date, setDate] = React.useState<Date>()

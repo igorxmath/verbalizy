@@ -1,8 +1,8 @@
 import type { Database } from '@/types/database.types'
 import {
-  createServerComponentClient,
-  createServerActionClient,
   createRouteHandlerClient,
+  createServerActionClient,
+  createServerComponentClient,
 } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 

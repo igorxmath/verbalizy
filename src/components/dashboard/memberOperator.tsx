@@ -1,11 +1,6 @@
 'use client'
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '#/ui/dropdownMenu'
+import { EllipsisVertical, Spinner, Trash } from '#/icons'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,8 +11,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '#/ui/alertDialog'
-import { Spinner, Trash, EllipsisVertical } from '#/icons'
 import { Button } from '#/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '#/ui/dropdownMenu'
 import type { Team, User } from '@/types/general.types'
 import * as React from 'react'
 

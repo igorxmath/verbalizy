@@ -1,7 +1,7 @@
 'use client'
 
 import { Columns, Logout, Settings, Spinner } from '#/icons'
-import { Avatar, AvatarImage, AvatarFallback } from '#/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '#/ui/avatar'
 import { Button } from '#/ui/button'
 import {
   DropdownMenu,

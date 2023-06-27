@@ -1,8 +1,8 @@
-import { NextResponse, type NextRequest } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
-import { hashToken } from '@/utils/hash'
 import { supabaseRoute } from '@/lib/supabaseHandler'
+import { hashToken } from '@/utils/hash'
 import { getURL } from '@/utils/helpers'
+import { NextResponse, type NextRequest } from 'next/server'
 
 async function validateInvite(request: NextRequest): Promise<NextResponse> {
   const { teamId, email, token } = await request.json()

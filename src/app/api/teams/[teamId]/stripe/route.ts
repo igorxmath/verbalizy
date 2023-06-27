@@ -2,7 +2,7 @@ import { stripe } from '@/lib/stripe'
 import { getTeamSubscriptionPlan } from '@/lib/subscription'
 import { supabaseRoute } from '@/lib/supabaseHandler'
 import { teamRouteContextSchema } from '@/utils/validation'
-import { type NextRequest, NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import * as z from 'zod'
 
 export const revalidate = 0

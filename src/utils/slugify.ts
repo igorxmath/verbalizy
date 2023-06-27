@@ -1,10 +1,10 @@
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import { supabaseRoute } from '@/lib/supabaseHandler'
-import type { Team, Project } from '@/types/general.types'
-import { teamSegments, projectSegments } from '@/utils/helpers'
+import type { Project, Team } from '@/types/general.types'
+import { projectSegments, teamSegments } from '@/utils/helpers'
 import slugify from '@sindresorhus/slugify'
-import { adjectives, animals, colors, uniqueNamesGenerator } from 'unique-names-generator'
 import type { Config } from 'unique-names-generator'
+import { adjectives, animals, colors, uniqueNamesGenerator } from 'unique-names-generator'
 
 const slugGeneratorConfig: Config = {
   dictionaries: [adjectives, animals, colors],

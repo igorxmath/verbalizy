@@ -2,11 +2,11 @@
 
 import { ChevronLeft, GitHub, Google, Spinner } from '#/icons'
 import { Button } from '#/ui/button'
-import { supabaseClient } from '@/lib/supabaseClient'
 import { useToast } from '@/hooks/useToast'
+import { supabaseClient } from '@/lib/supabaseClient'
 import Link from 'next/link'
-import * as React from 'react'
 import { useSearchParams } from 'next/navigation'
+import * as React from 'react'
 
 export default function LoginPage() {
   return (

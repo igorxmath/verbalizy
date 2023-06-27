@@ -1,6 +1,6 @@
 import { supabaseRoute } from '@/lib/supabaseHandler'
 import { documentRouteContextSchema, documentSchema } from '@/utils/validation'
-import { type NextRequest, NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import * as z from 'zod'
 
 export const revalidate = 0
@@ -84,4 +84,4 @@ async function deleteDocument(
   }
 }
 
-export { editDocument as PATCH, deleteDocument as DELETE }
+export { deleteDocument as DELETE, editDocument as PATCH }

@@ -11,15 +11,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '#/ui/dialog'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '#/ui/form'
 import { Input } from '#/ui/input'
-import { Form, FormField, FormItem, FormControl, FormMessage, FormLabel } from '#/ui/form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/useToast'
-import { emailSchema } from '@/utils/validation'
-import * as React from 'react'
 import type { Team } from '@/types/general.types'
+import { emailSchema } from '@/utils/validation'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
+import * as React from 'react'
+import { useForm } from 'react-hook-form'
 import type * as z from 'zod'
 
 type FormData = z.infer<typeof emailSchema>

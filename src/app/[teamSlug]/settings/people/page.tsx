@@ -1,12 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from '#/ui/avatar'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/ui/tabs'
-import { supabaseServerComponent } from '@/lib/supabaseHandler'
-import { supabaseAdmin } from '@/lib/supabaseAdmin'
-import { notFound } from 'next/navigation'
-import NewInviteDialog from '@/components/dashboard/inviteDialog'
 import { DeleteInviteAlert } from '@/components/dashboard/deleteInviteAlert'
+import NewInviteDialog from '@/components/dashboard/inviteDialog'
 import { MemberOperator } from '@/components/dashboard/memberOperator'
+import { supabaseAdmin } from '@/lib/supabaseAdmin'
+import { supabaseServerComponent } from '@/lib/supabaseHandler'
+import { notFound } from 'next/navigation'
 
 export default async function Page({ params: { teamSlug } }: { params: { teamSlug: string } }) {
   const supabase = supabaseServerComponent()

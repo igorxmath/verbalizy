@@ -1,6 +1,6 @@
 'use client'
 
-import { Spinner, Trash, EllipsisVertical, Pen } from '#/icons'
+import { EllipsisVertical, Pen, Spinner, Trash } from '#/icons'
 import {
   AlertDialog,
   AlertDialogAction,

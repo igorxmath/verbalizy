@@ -14,19 +14,19 @@ import {
 } from '#/ui/alertDialog'
 import { Button } from '#/ui/button'
 import { FieldSet } from '#/ui/fieldset'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '#/ui/form'
 import { Input } from '#/ui/input'
 import { Label } from '#/ui/label'
 import { Switch } from '#/ui/switch'
-import { Form, FormField, FormItem, FormControl, FormMessage } from '#/ui/form'
 import { useToast } from '@/hooks/useToast'
 import type { Team } from '@/types/general.types'
 import { slugSchema, teamSchema } from '@/utils/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
+import type { Route } from 'next'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
 import type * as z from 'zod'
-import type { Route } from 'next'
 
 type SlugFormData = z.infer<typeof slugSchema>
 

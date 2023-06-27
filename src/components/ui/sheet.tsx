@@ -3,7 +3,7 @@
 import { Clear } from '#/icons'
 import { cn } from '@/utils/merge'
 import * as SheetPrimitive from '@radix-ui/react-dialog'
-import { type VariantProps, cva } from 'class-variance-authority'
+import { cva, type VariantProps } from 'class-variance-authority'
 import * as React from 'react'
 
 const Sheet = SheetPrimitive.Root
@@ -208,11 +208,11 @@ SheetDescription.displayName = SheetPrimitive.Description.displayName
 
 export {
   Sheet,
-  SheetTrigger,
   SheetClose,
   SheetContent,
-  SheetHeader,
-  SheetFooter,
-  SheetTitle,
   SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
 }

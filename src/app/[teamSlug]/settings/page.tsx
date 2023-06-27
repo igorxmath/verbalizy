@@ -1,6 +1,6 @@
 import {
-  ConfirmTeamDeletion,
   ConfirmAccountDeletion,
+  ConfirmTeamDeletion,
   TeamNameForm,
   TeamSlugForm,
 } from '#/dashboard/teamSettingsFields'

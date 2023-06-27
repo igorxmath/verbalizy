@@ -1,6 +1,6 @@
 'use client'
 
-import { Sun, Moon, Computer } from '#/icons'
+import { Computer, Moon, Sun } from '#/icons'
 import { Button } from '#/ui/button'
 import {
   DropdownMenu,

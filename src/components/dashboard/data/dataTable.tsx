@@ -1,12 +1,11 @@
 'use client'
 
-import { Search } from '#/icons'
-import { Input } from '#/ui/input'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '#/ui/table'
-import { DataTableFacetedFilter } from './dataTableFilter'
 import { statuses } from '#/dashboard/data/columns'
 import { DataTablePagination } from '#/dashboard/data/dataTablePagination'
 import { DataTableViewOptions } from '#/dashboard/data/dataTableViewOptions'
+import { Search } from '#/icons'
+import { Input } from '#/ui/input'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '#/ui/table'
 import type {
   ColumnDef,
   ColumnFiltersState,
@@ -22,6 +21,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import * as React from 'react'
+import { DataTableFacetedFilter } from './dataTableFilter'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

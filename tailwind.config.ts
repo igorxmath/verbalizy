@@ -71,7 +71,6 @@ export default {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       typography: {
         DEFAULT: {
           css: {

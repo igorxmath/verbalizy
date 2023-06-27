@@ -1,11 +1,11 @@
 import { env } from '@/env.mjs'
-import { Resend } from 'resend'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import { supabaseRoute } from '@/lib/supabaseHandler'
+import { hashToken, randomBytes } from '@/utils/hash'
 import { getURL } from '@/utils/helpers'
 import { emailSchema, teamRouteContextSchema } from '@/utils/validation'
-import { hashToken, randomBytes } from '@/utils/hash'
 import { NextResponse, type NextRequest } from 'next/server'
+import { Resend } from 'resend'
 import * as z from 'zod'
 
 export const revalidate = 0

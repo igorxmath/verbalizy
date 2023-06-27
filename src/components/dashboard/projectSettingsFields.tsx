@@ -1,7 +1,6 @@
 'use client'
 
-import { FieldSet } from '#/ui/fieldset'
-import { Form, FormField, FormItem, FormControl, FormMessage } from '#/ui/form'
+import { Spinner, Trash } from '#/icons'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,17 +12,18 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '#/ui/alertDialog'
-import { Input } from '#/ui/input'
 import { Button } from '#/ui/button'
+import { FieldSet } from '#/ui/fieldset'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '#/ui/form'
+import { Input } from '#/ui/input'
+import { useToast } from '@/hooks/useToast'
 import type { Project } from '@/types/general.types'
+import { projectSchema, slugSchema } from '@/utils/validation'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useParams, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import type * as z from 'zod'
-import { Trash, Spinner } from '#/icons'
-import { useToast } from '@/hooks/useToast'
-import { projectSchema, slugSchema } from '@/utils/validation'
-import { useParams, useRouter } from 'next/navigation'
 
 type SlugFormData = z.infer<typeof slugSchema>
 

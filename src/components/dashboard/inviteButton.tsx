@@ -1,9 +1,9 @@
 'use client'
 
-import { Button } from '#/ui/button'
 import { Spinner } from '#/icons'
-import { useRouter } from 'next/navigation'
+import { Button } from '#/ui/button'
 import type { Route } from 'next'
+import { useRouter } from 'next/navigation'
 import * as React from 'react'
 
 export default function InviteButton({

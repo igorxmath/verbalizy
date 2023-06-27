@@ -1,5 +1,5 @@
-import { type NextRequest, NextResponse } from 'next/server'
 import { supabaseRoute } from '@/lib/supabaseHandler'
+import { NextResponse, type NextRequest } from 'next/server'
 
 export const revalidate = 0
 

@@ -21,17 +21,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '#/ui/dialog'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '#/ui/form'
 import { Input } from '#/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '#/ui/popover'
-import { Form, FormField, FormItem, FormControl, FormMessage, FormLabel } from '#/ui/form'
+import { useToast } from '@/hooks/useToast'
 import { cn } from '@/utils/merge'
 import { teamSchema } from '@/utils/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
+import type { Route } from 'next'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
-import { useToast } from '@/hooks/useToast'
-import type { Route } from 'next'
 import type * as z from 'zod'
 
 type FormData = z.infer<typeof teamSchema>
